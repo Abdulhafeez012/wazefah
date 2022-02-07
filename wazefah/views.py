@@ -1,6 +1,7 @@
 from re import template
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView,View
+from .models import UserInformation
 # Create your views here.
 
 class BaseView(TemplateView):
