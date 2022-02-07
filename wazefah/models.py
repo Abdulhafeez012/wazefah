@@ -8,6 +8,6 @@ class UserInformation(models.Model):
     Experiance = models.TextField(null = True)
     DateOfBirth = models.DateField()
     ProfilePick = models.ImageField(upload_to='profile_pics', blank=True)
-    Gender = models.CharField(max_length=2,choices=[('M','F')])
+    Gender = models.CharField(max_length=10,choices=[('F','Female'),('M','Male')])
     def __str__(self):
         return self.user.username
