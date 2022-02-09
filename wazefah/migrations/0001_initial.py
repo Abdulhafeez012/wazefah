@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name='UserInformation',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('Experiance', models.TextField(null=True)),
+                ('Experience', models.TextField(null=True)),
                 ('DateOfBirth', models.DateField()),
                 ('ProfilePick', models.ImageField(blank=True, upload_to='profile_pics')),
                 ('Gender', models.CharField(choices=[('M', 'F')], max_length=2)),
