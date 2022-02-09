@@ -3,20 +3,17 @@
 {% load crispy_forms_tags %}
 
 {% block logIn_block %}
-    <form action="" method="POST">{% csrf_token %}
-        {{form|crispy}}
-        <input type="submit" value="submit" class="btn btn-primary m-2">
-    </form>
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-danger d-flex align-items-center" role="alert" style="margin-top: 150px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                </svg>
-                <div>
-                    {{ message }}
-                </div>
-            </div>
-        {% endfor %}
-    {% endif %}
+    <div class="d-flex card border-primary " style="width: 25rem;">
+        <h2 class="align-self-center m-3 text-primary">Log In</h2>
+        <div class="card-body text-primary align-self-center">
+            <form class="d-flex flex-column" method="POST">{% csrf_token %}
+                {{form|crispy}}
+                <input type="submit" value="submit" class="btn btn-primary m-5 align-self-center">
+            </form>
+        </div>
+        <div class="d-flex flex-row text-primary align-self-center">
+            <p class="m-3">You Don't have an account?</p>
+            <a href="/register/" class="btn btn-primary active align-self-center">Sign Up</a>
+        </div>
+    </div>
 {% endblock %}
