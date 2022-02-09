@@ -3,6 +3,17 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+
+
+
+# jobs table
+class Job(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    company_name = models.TextField()
+    category = models.CharField(max_length=255)
+
 class UserInformation(models.Model):
     user= models.OneToOneField(User, on_delete=models.CASCADE)
     Experience = models.TextField(null = True)
@@ -11,3 +22,4 @@ class UserInformation(models.Model):
     Gender = models.CharField(max_length=10,choices=[('F','Female'),('M','Male')])
     def __str__(self):
         return self.user.username
+
