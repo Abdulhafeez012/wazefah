@@ -38,3 +38,4 @@ class JobView(CreateView):
     job_seven.save()
 
     job_eight = Job(title='Graphic designer', content='design and do logos', company_name='Pixitoon', category='Design')
+    job_eight.save()
