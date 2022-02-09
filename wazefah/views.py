@@ -1,8 +1,12 @@
 from re import template
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView,View
+
 from django.views.generic import CreateView
 from .models import Job
+
+
+from .models import UserInformation
 
 # Create your views here.
 
@@ -11,6 +15,7 @@ class BaseView(TemplateView):
 
 class HomeView(TemplateView):
     template_name = 'HomePage.html'
+
 
 
 
@@ -39,3 +44,4 @@ class JobView(CreateView):
 
     job_eight = Job(title='Graphic designer', content='design and do logos', company_name='Pixitoon', category='Design')
     job_eight.save()
+

@@ -37,12 +37,41 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a class="btn btn-primary mx-2">Log In</a>
-                    <a class="btn btn-primary mx-2">Sign Up</a>
+                    <a class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#logInModal">Log In</a>
+                    <a class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</a>
                 </div>
             </div>
+            
         </div>
     </nav>
+    <!-- Log In Modal -->
+    <div class="modal fade" id="logInModal" tabindex="-1" aria-labelledby="ModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Log In</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% block logIn_block %} {% endblock %}
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="ModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% block SignUp_block %} {% endblock %}
+            </div>
+        </div>
+        </div>
+    </div>
 </header>
 <div class="container">
     <div class="search d-flex flex-column align-items-center" id="search">
