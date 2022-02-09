@@ -3,10 +3,23 @@
 {% load crispy_forms_tags %}
 
 {% block SignUp_block %}
+  <!-- Sign Up Modal -->
+  <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="ModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST">{% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-danger bd-highlight">Register</button>
+            </form>
+                
+        </div>
+    </div>
+    </div>
+</div>
 
-<form method="POST">{% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit" class="btn btn-danger bd-highlight">Register</button>
-</form>
-    
 {% endblock %}
