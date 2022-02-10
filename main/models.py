@@ -24,3 +24,10 @@ class Job(models.Model):
 
     def __str__(self):
         return self.title + " "+ self.category
+
+class AppliedJob(models.Model):
+    user = models.ForeignKey(UserInformation,on_delete=models.CASCADE,null=True)
+    job = models.ForeignKey(Job,on_delete=models.CASCADE,null=True)
+
+    def __str__(self):
+        return str(self.user) +"-"+ str(self.job)

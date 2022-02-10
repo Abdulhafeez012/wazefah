@@ -1,5 +1,5 @@
 """
-ASGI config for Sitech project.
+ASGI config for wazefah project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
