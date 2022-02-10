@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'wazefah',
+    'main',
     'crispy_forms',
 ]
 
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Sitech.urls'
+ROOT_URLCONF = 'wazefah.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Sitech.wsgi.application'
+WSGI_APPLICATION = 'wazefah.wsgi.application'
 
 
 # Database

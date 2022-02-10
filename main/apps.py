@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class WazefahConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'wazefah'
+    name = 'main'
