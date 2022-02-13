@@ -12,11 +12,11 @@ class BaseView(TemplateView):
 
 
 class HomeView(TemplateView):
-    template_name = 'HomePage.html'
+    template_name = 'home-page.html'
 
 
 class SignUp(TemplateView):
-    template_name = 'SignUp.html'
+    template_name = 'sign-up.html'
     user_form = UserForm
 
     def get(self, request, *args, **kwargs):
