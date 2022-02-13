@@ -13,4 +13,4 @@ class UserForm(UserCreationForm):
 class UserInformationForm(forms.ModelForm):
     class Meta():
         model = UserInformation
-        fields = ('ProfilePick', 'Experience', 'Gender', 'DateOfBirth')
+        fields = ('ProfilePic', 'Experience', 'Gender', 'DateOfBirth')
