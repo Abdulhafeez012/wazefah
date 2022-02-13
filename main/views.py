@@ -76,7 +76,7 @@ def log_out(request):
     return redirect('/home/')
 
 # The LoginRequiredMixin it's the same of login_required but for classes
-class VeiwList(LoginRequiredMixin,TemplateView):
+class SuggestionJobView(LoginRequiredMixin,TemplateView):
     template_name = 'HomePage.html'
     List1 = Job.objects.filter(category='IT').first()
     List2 = Job.objects.filter(category="Medical").first()
