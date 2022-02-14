@@ -1,8 +1,6 @@
-from typing import List
-from unicodedata import category
 from django.shortcuts import render, redirect
 from .forms import UserForm
-from django.views.generic import (TemplateView, View)
+from django.views.generic import (TemplateView, View, ListView)
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -77,7 +75,7 @@ def log_out(request):
 
 # The LoginRequiredMixin it's the same of login_required but for classes
 class SuggestionJobView(LoginRequiredMixin,TemplateView):
-    template_name = 'HomePage.html'
+    template_name = 'home-page.html'
     List1 = Job.objects.filter(category='IT').first()
     List2 = Job.objects.filter(category="Medical").first()
     List3 = Job.objects.filter(category='Engineering').first()
@@ -95,3 +93,21 @@ class SuggestionJobView(LoginRequiredMixin,TemplateView):
             'model4' : model4,
             }
         return render(request,self.template_name,context)
+
+class ResultView(ListView):
+    template = 'result-page.html'
+    Model = Job
+
+    def get(self,request,*args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('/home/SugJob')
+        return redirect('/home/')
+
+    def post(self, request, *args, **kwargs):
+        SearchBar = request.POST['SearchBar']
+        jobs = self.Model.objects.filter(title=SearchBar)
+        context = {
+        'SearchBar' : SearchBar,
+        'jobs' : jobs,
+        }
+        return render(request, self.template,context)
