@@ -94,10 +94,11 @@
     {% else %}
     <div class="container">
         <div class="search d-flex flex-column align-items-center">
-            <form>
+            <form method="POST" action="{% url 'main:result' %}">{% csrf_token %}
                 <div class="d-flex input-group mb-3">
                     <div class="d-flex flex-row-reverse border border-primary rounded mx-2">
-                        <input type="text" class="form-control form-control-lg border-0" placeholder="Search Here">
+                        <input type="text" class="form-control form-control-lg border-0"
+                            placeholder="Search For a Title Job" name="SearchBar">
                         <div class="dropdown align-self-center">
                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -118,11 +119,15 @@
         </div>
     </div>
     {% endif %}
+    {% if 'result' in request.path %}
+    {% block result_block %}
 
+    {% endblock %}
+    {% else %}
     {% block body_block %}
 
     {% endblock %}
-
+    {% endif %}
     <!-- Footer -->
     <footer class="text-center text-lg-start bg-light text-muted mt-auto" id="footer">
         <section class="ftr-body">
