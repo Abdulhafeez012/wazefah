@@ -111,3 +111,4 @@ class ResultView(ListView):
         'jobs' : jobs,
         }
         return render(request, self.template,context)
+
