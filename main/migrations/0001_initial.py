@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('Experience', models.TextField(null=True)),
                 ('DateOfBirth', models.DateField()),
-                ('ProfilePick', models.ImageField(blank=True, upload_to='profile-pics')),
+                ('ProfilePick', models.ImageField(blank=True, upload_to='profile_pics')),
                 ('Gender', models.CharField(choices=[('F', 'Female'), ('M', 'Male')], max_length=10)),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

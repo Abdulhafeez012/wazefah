@@ -1,92 +1,166 @@
 {% extends 'base.html' %}
 
 {% block body_block %}
-<div class="container" id="company">
-    <div class="d-flex flex-column align-items-center mt-4">
-        <div class="d-flex flex-row flex-wrap justify-content-center">
-            <div class="d-flex flex-column align-items-center m-4 " id="company_1">
-                <div class="card " style="width: 18rem; height: 22rem; ;border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
-                    <img src="https://assets-global.website-files.com/5eb143b314c8f315c7e1a7e2/60ef526882122d7b9bdfb749_Sitech_Logo_Blue.svg" class="card-img-top p-3" alt="Sitech">
-                    <div class="card-body p-2">
-                        <h5 class="card-title text-primary text-uppercase" style="text-align: center; font-weight: bolder;">Sitech</h5>
-                        <p class="card-text text-primary" style="text-align: left;">Helping enterprises accelerate their digital growth through custom software development and innovative digital product design.</p>
-                        <section class="d-flex justify-content-center"><a href="https://www.sitech.me/" target="blank" class="btn btn-primary">Visit Website</a></section>
+    <div class="container" id="message_container">
+        {% if messages %}
+            {% for message in messages %}
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                    </symbol>
+                </svg>
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                        <use xlink:href="#check-circle-fill"></use>
+                    </svg>
+                    <div>
+                        {{ message }}
                     </div>
                 </div>
-            </div>
-            <div class="d-flex flex-column align-items-center m-4 " id="company_2">
-                <div class="card " style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
-                    <img src="https://www.ikea.com/global/en/images/ikea-logo.svg" class="card-img-top p-3" alt="Ikea">
-                    <div class="card-body p-2">
-                        <h5 class="card-title text-primary text-uppercase" style="text-align: center; font-weight: bolder;">Ikea</h5>
-                        <p class="card-text text-primary" style="text-align: left;">At IKEA, you'll find our range of well designed,
-                            affordable home furnishing solutions – all waiting to be tried out.</p>
-                        <section class="d-flex justify-content-center"><a href="https://www.ikea.com/jo/en/" target="blank" class="btn btn-primary">Visit Website</a></section>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container" id="company">
+        <div class="d-flex flex-column align-items-center mt-4">
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+                <div class="d-flex flex-column align-items-center m-4 " id="company_1">
+                    <div class="card "
+                         style="width: 18rem; height: 22rem; ;border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
+                        <img src="https://assets-global.website-files.com/5eb143b314c8f315c7e1a7e2/60ef526882122d7b9bdfb749_Sitech_Logo_Blue.svg"
+                             class="card-img-top p-3" alt="Sitech">
+                        <div class="card-body p-2">
+                            <h5 class="card-title text-primary text-uppercase"
+                                style="text-align: center; font-weight: bolder;">Sitech</h5>
+                            <p class="card-text text-primary" style="text-align: left;">Helping enterprises accelerate
+                                their digital growth through custom software development and innovative digital product
+                                design.</p>
+                            <section class="d-flex justify-content-center"><a href="https://www.sitech.me/"
+                                                                              target="blank" class="btn btn-primary">Visit
+                                Website</a></section>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex flex-column align-items-center m-4 " id="company_3">
-                <div class="card " style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
-                    <img src="https://eu.wholefoodsmarket.com/uploads/logo.svg" class="card-img-top p-3 align-self-center" alt="Whole Foods Market" style="width: 10rem; height: 10rem;">
-                    <div class="card-body p-2">
-                        <h5 class="card-title text-primary text-uppercase" style="text-align: center; font-weight: bolder;">Whole Foods Market</h5>
-                        <p class="card-text text-primary" style="text-align: left;">Choose from hundreds of our favourite products and get them delivered to your door in a flash with Deliveroo.</p>
-                        <section class="d-flex justify-content-center"><a href=" https://eu.wholefoodsmarket.com/?destination=www.wholefoodsmarket.com%2F" target="blank" class="btn btn-primary">Visit Website</a></section>
+                <div class="d-flex flex-column align-items-center m-4 " id="company_2">
+                    <div class="card "
+                         style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
+                        <img src="https://www.ikea.com/global/en/images/ikea-logo.svg" class="card-img-top p-3"
+                             alt="Ikea">
+                        <div class="card-body p-2">
+                            <h5 class="card-title text-primary text-uppercase"
+                                style="text-align: center; font-weight: bolder;">Ikea</h5>
+                            <p class="card-text text-primary" style="text-align: left;">At IKEA, you'll find our range
+                                of well designed,
+                                affordable home furnishing solutions – all waiting to be tried out.</p>
+                            <section class="d-flex justify-content-center"><a href="https://www.ikea.com/jo/en/"
+                                                                              target="blank" class="btn btn-primary">Visit
+                                Website</a></section>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex flex-column align-items-center m-4 " id="company_4">
-                <div class="card " style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
-                    <img src="https://www.sita.aero/static/images/logo.svg" class="card-img-top p-3 align-self-center" alt="site" style="width: 10rem; height: 10rem;">
-                    <div class="card-body p-2">
-                        <h5 class="card-title text-primary text-uppercase" style="text-align: center; font-weight: bolder;">Sita</h5>
-                        <p class="card-text text-primary" style="text-align: left;">SITA is the world’s leading specialist in air transport communications and information technology.</p>
-                        <section class="d-flex justify-content-center"><a href="https://www.sita.aero/" target="blank" class="btn btn-primary">Visit Website</a></section>
+                <div class="d-flex flex-column align-items-center m-4 " id="company_3">
+                    <div class="card "
+                         style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
+                        <img src="https://eu.wholefoodsmarket.com/uploads/logo.svg"
+                             class="card-img-top p-3 align-self-center" alt="Whole Foods Market"
+                             style="width: 10rem; height: 10rem;">
+                        <div class="card-body p-2">
+                            <h5 class="card-title text-primary text-uppercase"
+                                style="text-align: center; font-weight: bolder;">Whole Foods Market</h5>
+                            <p class="card-text text-primary" style="text-align: left;">Choose from hundreds of our
+                                favourite products and get them delivered to your door in a flash with Deliveroo.</p>
+                            <section class="d-flex justify-content-center"><a
+                                    href=" https://eu.wholefoodsmarket.com/?destination=www.wholefoodsmarket.com%2F"
+                                    target="blank" class="btn btn-primary">Visit Website</a></section>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex flex-column align-items-center m-4 " id="company_5">
-                <div class="card " style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
-                    <img src="https://pando-soft.com/static/img/logo.webp" class="card-img-top p-3 align-self-center" alt="pando soft" style="width: 10rem; height: 10rem;">
-                    <div class="card-body p-2">
-                        <h5 class="card-title text-primary text-uppercase" style="text-align: center; font-weight: bolder;">PandoSoft</h5>
-                        <p class="card-text text-primary" style="text-align: left;">a fast-growing software development company with highly-experienced teams to deliver high-quality.</p>
-                        <section class="d-flex justify-content-center"><a href="https://pando-soft.com/en/" target="blank" class="btn btn-primary">Visit Website</a></section>
+                <div class="d-flex flex-column align-items-center m-4 " id="company_4">
+                    <div class="card "
+                         style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
+                        <img src="https://www.sita.aero/static/images/logo.svg"
+                             class="card-img-top p-3 align-self-center" alt="site" style="width: 10rem; height: 10rem;">
+                        <div class="card-body p-2">
+                            <h5 class="card-title text-primary text-uppercase"
+                                style="text-align: center; font-weight: bolder;">Sita</h5>
+                            <p class="card-text text-primary" style="text-align: left;">SITA is the world’s leading
+                                specialist in air transport communications and information technology.</p>
+                            <section class="d-flex justify-content-center"><a href="https://www.sita.aero/"
+                                                                              target="blank" class="btn btn-primary">Visit
+                                Website</a></section>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex flex-column align-items-center m-4 " id="company_6">
-                <div class="card " style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
-                    <img src="https://www.chetu.com/img/logo-new-home.png" class="card-img-top p-3 align-self-center" alt="chetu" style="width: 15rem; height: 10rem;">
-                    <div class="card-body p-2">
-                        <h5 class="card-title text-primary text-uppercase" style="text-align: center; font-weight: bolder;">Chetu</h5>
-                        <p class="card-text text-primary" style="text-align: left;">Chetu is a US-based software development company specializing 
-                            in providing businesses worldwide with custom technology solutions.</p>
-                        <section class="d-flex justify-content-center"><a href="https://www.chetu.com/" target="blank" class="btn btn-primary">Visit Website</a></section>
+                <div class="d-flex flex-column align-items-center m-4 " id="company_5">
+                    <div class="card "
+                         style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
+                        <img src="https://pando-soft.com/static/img/logo.webp"
+                             class="card-img-top p-3 align-self-center" alt="pando soft"
+                             style="width: 10rem; height: 10rem;">
+                        <div class="card-body p-2">
+                            <h5 class="card-title text-primary text-uppercase"
+                                style="text-align: center; font-weight: bolder;">PandoSoft</h5>
+                            <p class="card-text text-primary" style="text-align: left;">a fast-growing software
+                                development company with highly-experienced teams to deliver high-quality.</p>
+                            <section class="d-flex justify-content-center"><a href="https://pando-soft.com/en/"
+                                                                              target="blank" class="btn btn-primary">Visit
+                                Website</a></section>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex flex-column align-items-center m-4 " id="company_7">
-                <div class="card " style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/PricewaterhouseCoopers_Logo.svg/220px-PricewaterhouseCoopers_Logo.svg.png" class="card-img-top p-3 align-self-center" alt="PWC" style="width: 10rem; height: 8rem;">
-                    <div class="card-body p-2">
-                        <h5 class="card-title text-primary text-uppercase" style="text-align: center; font-weight: bolder;">PwC</h5>
-                        <p class="card-text text-primary" style="text-align: left;">we deliver bold ideas, solutions which are human-led and tech-powered and meaningful experiences which deliver real-life results.</p>
-                        <section class="d-flex justify-content-center"><a href="https://www.pwc.com/" target="blank" class="btn btn-primary">Visit Website</a></section>
+                <div class="d-flex flex-column align-items-center m-4 " id="company_6">
+                    <div class="card "
+                         style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
+                        <img src="https://www.chetu.com/img/logo-new-home.png"
+                             class="card-img-top p-3 align-self-center" alt="chetu"
+                             style="width: 15rem; height: 10rem;">
+                        <div class="card-body p-2">
+                            <h5 class="card-title text-primary text-uppercase"
+                                style="text-align: center; font-weight: bolder;">Chetu</h5>
+                            <p class="card-text text-primary" style="text-align: left;">Chetu is a US-based software
+                                development company specializing
+                                in providing businesses worldwide with custom technology solutions.</p>
+                            <section class="d-flex justify-content-center"><a href="https://www.chetu.com/"
+                                                                              target="blank" class="btn btn-primary">Visit
+                                Website</a></section>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex flex-column align-items-center m-4 " id="company_8">
-                <div class="card " style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Cisco_logo_blue_2016.svg/220px-Cisco_logo_blue_2016.svg.png" class="card-img-top p-3 align-self-center" alt="cisco" style="width: 15rem; height: 10rem;">
-                    <div class="card-body p-2">
-                        <h5 class="card-title text-primary text-uppercase" style="text-align: center; font-weight: bolder;">Cisco</h5>
-                        <p class="card-text text-primary" style="text-align: left;">Cisco delivers innovative software-defined networking, cloud, and security solutions to help transform your business.</p>
-                        <section class="d-flex justify-content-center"><a href="https://www.cisco.com/" target="blank" class="btn btn-primary">Visit Website</a></section>
+                <div class="d-flex flex-column align-items-center m-4 " id="company_7">
+                    <div class="card "
+                         style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/PricewaterhouseCoopers_Logo.svg/220px-PricewaterhouseCoopers_Logo.svg.png"
+                             class="card-img-top p-3 align-self-center" alt="PWC" style="width: 10rem; height: 8rem;">
+                        <div class="card-body p-2">
+                            <h5 class="card-title text-primary text-uppercase"
+                                style="text-align: center; font-weight: bolder;">PwC</h5>
+                            <p class="card-text text-primary" style="text-align: left;">we deliver bold ideas, solutions
+                                which are human-led and tech-powered and meaningful experiences which deliver real-life
+                                results.</p>
+                            <section class="d-flex justify-content-center"><a href="https://www.pwc.com/" target="blank"
+                                                                              class="btn btn-primary">Visit Website</a>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column align-items-center m-4 " id="company_8">
+                    <div class="card "
+                         style="width: 20rem; height: 22rem; border-color: #5b7ab3; border-radius: 2em; border-width: .4em;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Cisco_logo_blue_2016.svg/220px-Cisco_logo_blue_2016.svg.png"
+                             class="card-img-top p-3 align-self-center" alt="cisco"
+                             style="width: 15rem; height: 10rem;">
+                        <div class="card-body p-2">
+                            <h5 class="card-title text-primary text-uppercase"
+                                style="text-align: center; font-weight: bolder;">Cisco</h5>
+                            <p class="card-text text-primary" style="text-align: left;">Cisco delivers innovative
+                                software-defined networking, cloud, and security solutions to help transform your
+                                business.</p>
+                            <section class="d-flex justify-content-center"><a href="https://www.cisco.com/"
+                                                                              target="blank" class="btn btn-primary">Visit
+                                Website</a></section>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
