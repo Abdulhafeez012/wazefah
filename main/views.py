@@ -95,7 +95,7 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
             user_form.save()
             profile_form.save()
             messages.success(request, 'Your profile has been updated succesfully!')
-            return redirect('/home/')
+            return redirect('/home/SugJob/')
         else:
             messages.error(request, 'Incomplete info!')
 

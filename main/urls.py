@@ -11,5 +11,7 @@ urlpatterns = [
     path('logIn/', views.LogInView.as_view(), name='login'),
     path('logout/', views.log_out, name='logout'),
     path('register/', views.SignUp.as_view(), name='register'),
+    path('home/SugJob/', views.SuggestionJobView.as_view(),name='SuggestionJob'),
     path('profilepage/', views.UserProfileView.as_view(), name='detail'),
+    path('result', views.ResultView.as_view(), name='result'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
