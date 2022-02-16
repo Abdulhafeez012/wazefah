@@ -13,7 +13,7 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
-    <title>wasefah</title>
+    <title>wazefah</title>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -27,7 +27,10 @@
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+              {% if 'profilepage' in request.path %}
+                  <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+              {% else %}
+                  <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
                         <li class="nav-item">
@@ -45,21 +48,23 @@
                             <a class="nav-link active" href="#footer">Contact Us</a>
                         </li>
                     </ul>
-                    {% if not user.is_authenticated %}
-                    <div class="d-flex">
-                        <a class="btn btn-primary mx-2" href="/logIn/">Log In</a>
-                        <a class="btn btn-primary mx-2" href="{% url 'main:register' %}">Sign Up</a>
-                    </div>
-                    {% else %}
-                    <div class="d-flex flex-column-reverse justify-content-end ">
-                        <a class="btn btn-primary active align-self-center" href="/logout/" p-0>Log Out</a>
-                        <button type="button" class="btn ">
-                            <h2 class="text-uppercase">{{user.username}}</h2>
-                            <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_206976.png&f=1&nofb=1"
-                                alt="Profile image" class="rounded-circle" width="50rem" height="50rem">
-                        </button>
-                    </div>
-                    {% endif %}
+            {% endif %}
+            {% if not user.is_authenticated %}
+                <div class="d-flex">
+                    <a class="btn btn-primary mx-2" href="/logIn/">Log In</a>
+                    <a class="btn btn-primary mx-2" href="{% url 'main:register' %}">Sign Up</a>
+                </div>
+            {% else %}
+                <div class="d-flex flex-column-reverse justify-content-end ">
+                    <a class="btn btn-primary active align-self-center" href="/logout/" p-0>Log Out</a>
+                    <button type="button" class="btn ">
+                        <h2 class="text-uppercase">{{ user }}</h2>
+                    <img src="{{ user.userinformation.ProfilePic.url }}"
+                         alt="Profile image"
+                         class="rounded-circle" width="50rem" height="50rem">
+                    </button>
+                </div>
+            {% endif %}
                 </div>
             </div>
         </nav>
@@ -91,7 +96,13 @@
 
         {% endblock %}
     </div>
-    {% else %}
+{% elif 'profilepage' in request.path %}
+    <div class="container d-flex flex-column justify-content-center" style="margin-top: 100px;margin-bottom: 50px">
+        {% block profile_block %}
+
+        {% endblock %}
+    </div>
+{% else %}
     <div class="container">
         <div class="search d-flex flex-column align-items-center">
             <form method="POST" action="{% url 'main:result' %}">{% csrf_token %}
@@ -118,16 +129,16 @@
             </form>
         </div>
     </div>
-    {% endif %}
-    {% if 'result' in request.path %}
-    {% block result_block %}
+{% endif %}
+{% if 'result' in request.path %}
+{% block result_block %}
 
-    {% endblock %}
-    {% else %}
-    {% block body_block %}
+{% endblock %}
+{% else %}
+{% block body_block %}
 
-    {% endblock %}
-    {% endif %}
+{% endblock %}
+{% endif %}
     <!-- Footer -->
     <footer class="text-center text-lg-start bg-light text-muted mt-auto" id="footer">
         <section class="ftr-body">
@@ -164,9 +175,23 @@
             © 2021 Copyright:
             <a class="text-reset fw-bold" href="#">Wazefeh.com</a>
         </div>
-        <!-- Copyright -->
-    </footer>
-    <!-- Footer -->
+    </section>
+    <!-- Section: Links  -->
+
+    <!-- Copyright -->
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2021 Copyright:
+        <a class="text-reset fw-bold" href="#">Wazefeh.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+<!-- Footer -->
+<script>
+    var message_ele = document.getElementById("message_container");
+    setTimeout(function () {
+        message_ele.style.display = "none";
+    }, 3000);
+</script>
 </body>
 
 </html>

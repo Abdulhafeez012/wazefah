@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import UserForm
+from .forms import UserForm, UserProfileForm, UserFormUpdate
+from . import models
 from django.views.generic import (TemplateView, View, ListView)
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -8,16 +9,19 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Job
 
+
 class BaseView(TemplateView):
     template_name = 'base.html'
 
-class HomeView(TemplateView):
+
+class HomeView(BaseView, TemplateView):
     template_name = 'home-page.html'
 
 
 class SignUp(TemplateView):
     template_name = 'sign-up.html'
     user_form = UserForm
+    profile_form = UserProfileForm
 
     def get(self, request, *args, **kwargs):
         uform = self.user_form
@@ -26,15 +30,19 @@ class SignUp(TemplateView):
     def post(self, request, *args, **kwargs):
         registered = False
         user_form = UserForm(data=request.POST)
-
+        profile_form = self.profile_form(data=request.POST)
         if user_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+
             if user is not None:
                 login(request, user)
                 return redirect('/home/SugJob')
-
             registered = True
         else:
             print(user_form.errors)
@@ -68,11 +76,37 @@ class LogInView(View):
             return redirect('/logIn/')
 
 
+class UserProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'profile-page.html'
+    user_form = UserFormUpdate
+    profile_form = UserProfileForm
+
+    def get(self, request, *args, **kwargs):
+        user_form = self.user_form
+        profile_form = self.profile_form
+
+        return render(request, self.template_name,
+                      {'u_form': user_form, 'p_form': profile_form})
+
+    def post(self, request, *args, **kwargs):
+        user_form = UserFormUpdate(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userinformation)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile has been updated succesfully!')
+            return redirect('/home/')
+        else:
+            messages.error(request, 'Incomplete info!')
+
+        return render(request, self.template_name, {'u_form': user_form, 'p_form': profile_form})
+
+
 @login_required
 def log_out(request):
     logout(request)
     return redirect('/home/')
-
+  
 # The LoginRequiredMixin it's the same of login_required but for classes
 class SuggestionJobView(LoginRequiredMixin,TemplateView):
     template_name = 'home-page.html'
