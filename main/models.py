@@ -23,7 +23,6 @@ class Job(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     company_name = models.TextField()
     category = models.CharField(max_length=255)
-
     def __str__(self):
         return self.title + " " + self.category
 

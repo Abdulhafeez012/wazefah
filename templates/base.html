@@ -1,49 +1,53 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
     <title>wazefah</title>
 </head>
+
 <body class="d-flex flex-column min-vh-100">
-<header>
-    <nav class="d-flex navbar navbar-expand-lg fixed-top navbar-light bg-light">
-        <div class="container-fluid">
-            <img class="rounded-circle" src="{% static '/images/wazefah.png' %}" alt="wazefah-logo"
-                 style="width: 5em; height: 5em;">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            {% if 'profilepage' in request.path %}
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-            {% else %}
-                <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/home/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#company">Companies</a>
-                    </li>
-                    {% if user.is_authenticated %}
+    <header>
+        <nav class="d-flex navbar navbar-expand-lg fixed-top navbar-light bg-light">
+            <div class="container-fluid">
+                <img class="rounded-circle" src="{% static '/images/wazefah.png' %}" alt="wazefah-logo"
+                    style="width: 5em; height: 5em;">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+              {% if 'profilepage' in request.path %}
+                  <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+              {% else %}
+                  <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link active" href="#job">Suggestion Job</a>
+                            <a class="nav-link active" href="{% url 'main:SuggestionJob' %}">Home</a>
                         </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#footer">Contact Us</a>
-                    </li>
-                </ul>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/home/">Home</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#company">Companies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#footer">Contact Us</a>
+                        </li>
+                    </ul>
             {% endif %}
             {% if not user.is_authenticated %}
                 <div class="d-flex">
@@ -55,42 +59,43 @@
                     <a class="btn btn-primary active align-self-center" href="/logout/" p-0>Log Out</a>
                     <button type="button" class="btn ">
                         <h2 class="text-uppercase">{{ user }}</h2>
-                        <img src="{{ user.userinformation.ProfilePic.url }}"
-                             alt="Profile image"
-                             class="rounded-circle" width="50rem" height="50rem"></button>
-                </div>
+                    <img src="{{ user.userinformation.ProfilePic.url }}"
+                         alt="Profile image"
+                         class="rounded-circle" width="50rem" height="50rem">
+                    </button>
                 </div>
             {% endif %}
-        </div>
-    </nav>
-</header>
-{% if 'logIn' in request.path %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-danger d-flex justify-content-center mx-5" role="alert" style="margin-top: 150px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                     class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
-                     aria-label="Warning:">
-                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                </svg>
-                <div>
-                    {{ message }}
                 </div>
             </div>
-        {% endfor %}
+        </nav>
+    </header>
+    {% if 'logIn' in request.path %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger d-flex justify-content-center mx-5" role="alert" style="margin-top: 150px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
+            aria-label="Warning:">
+            <path
+                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+        </svg>
+        <div>
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
     {% endif %}
     <div class="container d-flex justify-content-center" style="margin-top: 150px; margin-bottom: 100px;">
         {% block logIn_block %}
 
         {% endblock %}
     </div>
-{% elif 'register' in request.path %}
+    {% elif 'register' in request.path %}
     <div class="container d-flex justify-content-center" style="margin-top: 150px;margin-bottom: 50px">
         {% block register_block %}
 
         {% endblock %}
     </div>
-
 {% elif 'profilepage' in request.path %}
     <div class="container d-flex flex-column justify-content-center" style="margin-top: 100px;margin-bottom: 50px">
         {% block profile_block %}
@@ -100,18 +105,20 @@
 {% else %}
     <div class="container">
         <div class="search d-flex flex-column align-items-center">
-            <form>
+            <form method="POST" action="{% url 'main:result' %}">{% csrf_token %}
                 <div class="d-flex input-group mb-3">
                     <div class="d-flex flex-row-reverse border border-primary rounded mx-2">
-                        <input type="text" class="form-control form-control-lg border-0" placeholder="Search Here">
+                        <input type="text" class="form-control form-control-lg border-0"
+                            placeholder="Search For a Title Job" name="SearchBar">
                         <div class="dropdown align-self-center">
                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                data-bs-toggle="dropdown" aria-expanded="false">
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li><a class="dropdown-item" href="#">IT</a></li>
+                                <li><a class="dropdown-item" href="#">Medical</a></li>
+                                <li><a class="dropdown-item" href="#">Engineering</a></li>
+                                <li><a class="dropdown-item" href="#">Design</a></li>
                             </ul>
                         </div>
                     </div>
@@ -123,51 +130,50 @@
         </div>
     </div>
 {% endif %}
+{% if 'result' in request.path %}
+{% block result_block %}
 
-{% if user.is_authenticated %}
-    {% block job_block %}
-
-    {% endblock %}
-{% endif %}
-
+{% endblock %}
+{% else %}
 {% block body_block %}
 
 {% endblock %}
-
-<!-- Footer -->
-<footer class="text-center text-lg-start bg-light text-muted mt-auto" id="footer">
-    <section class="ftr-body">
-        <div class="container text-center text-md-start mt-5">
-            <!-- Grid row -->
-            <div class="row mt-3">
-                <!-- Grid column -->
-                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                    <!-- Content -->
-                    <h6 class="text-uppercase fw-bold mb-4">
-                        <i class="fas fa-gem me-3"></i>Wazefah
-                    </h6>
-                    <p>
-
-                    </p>
+{% endif %}
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted mt-auto" id="footer">
+        <section class="ftr-body">
+            <div class="container text-center text-md-start mt-5">
+                <!-- Grid row -->
+                <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!-- Content -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            <i class="fas fa-gem me-3"></i>Wazefah
+                        </h6>
+                        <p></p>
+                    </div>
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Contact
+                        </h6>
+                        <p><i class="fas fa-home me-3"></i> Amman Jordan</p>
+                        <p>
+                            <i class="fas fa-envelope me-3">TeamWork@Sitech.me</i>
+                        </p>
+                        <p><i class="fas fa-phone me-3">+962777777123</i></p>
+                    </div>
+                    <!-- Grid column -->
                 </div>
-                <!-- Grid column -->
-
-                <!-- Grid column -->
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                    <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4">
-                        Contact
-                    </h6>
-                    <p><i class="fas fa-home me-3"></i> Amman Jordan</p>
-                    <p>
-                        <i class="fas fa-envelope me-3"></i>
-                        TeamWork@Sitech.me
-                    </p>
-                    <p><i class="fas fa-phone me-3">+962777777123</i></p>
-                </div>
-                <!-- Grid column -->
+                <!-- Grid row -->
             </div>
-            <!-- Grid row -->
+        </section>
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2021 Copyright:
+            <a class="text-reset fw-bold" href="#">Wazefeh.com</a>
         </div>
     </section>
     <!-- Section: Links  -->
@@ -187,4 +193,5 @@
     }, 3000);
 </script>
 </body>
+
 </html>
