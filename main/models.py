@@ -33,3 +33,9 @@ class AppliedJob(models.Model):
 
     def __str__(self):
         return str(self.user) + "-" + str(self.job)
+class Experience(models.Model):
+    position = models.CharField(max_length=70)
+    start_date = models.DateTimeField(auto_now_add=True)
+    end_date = models.DateTimeField(auto_now_add=False)
+    company_name = models.TextField()
+    description = models.TextField(null=True, blank=True)
