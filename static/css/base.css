@@ -2,6 +2,28 @@
     margin: 0;
     padding: 0;
 }
-.search{
-    margin-top:200px;
+
+.search {
+    margin-top: 200px;
+}
+
+.card {
+    width: 40em;
+    margin-top: 100px;
+}
+
+.update {
+    color: #000000;
+    text-decoration: none;
+}
+
+.efeild{
+    color: #000000;
+}
+.delete-exp{
+    color: #ff0000;
+}
+
+.card-border{
+    height: 250px;
 }

@@ -37,7 +37,7 @@
                     <!--                <div class="text-center mt-3"> <span class="bg-secondary p-1 px-4 rounded text-white">Pro</span>-->
                     <h5 class="mt-2 mb-0">{{ user.username }}</h5> <span>{{ user.userinformation.CareerPath }}</span>
                     <div class="px-4 mt-1">
-                        <p class="fonts">{{ user.userinformation.Experience }}</p>
+                        <p class="fonts">{{ user.userinformation.CareerPath }}</p>
                     </div>
                 </div>
             </div>
@@ -49,28 +49,28 @@
     <div class="container mt-5 mb-5">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <h4>Experience</h4>
-                <ul class="timeline">
-                    <li>
-                        <a target="_blank" href="https://www.totoprayogo.com/#">Job 1</a>
-                        <a href="#" class="float-right">Date </a>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi
-                            semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula
-                            in sodales vehicula....</p>
-                    </li>
-                    <li>
-                        <a href="#">Job 2</a>
-                        <a href="#" class="float-right">Date</a>
-                        <p>Curabitur purus sem, malesuada eu luctus eget, suscipit sed turpis. Nam pellentesque felis
-                            vitae justo accumsan, sed semper nisi sollicitudin...</p>
-                    </li>
-                    <li>
-                        <a href="#">Job 3</a>
-                        <a href="#" class="float-right">Date</a>
-                        <p>Fusce ullamcorper ligula sit amet quam accumsan aliquet. Sed nulla odio, tincidunt vitae nunc
-                            vitae, mollis pharetra velit. Sed nec tempor nibh...</p>
-                    </li>
-                </ul>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>Experience</h4>
+                    </div>
+                    <div>
+                        <a class="btn btn-secondary" href="{% url 'main:create' %}">
+                            <img src="/static/images/file-earmark-plus.svg">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="d-flex justify-content-between">
+                    {% for exps in exp %}
+                        <li>
+                            <a href="{{ exps.id }}">{{ exps.position }}</a>
+                            <p>{{ exps.description }}</p>
+                        </li>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
 from .forms import UserForm, UserProfileForm, UserFormUpdate
 from . import models
-from django.views.generic import (TemplateView, View, ListView)
+from django.views.generic import (TemplateView, View, ListView, DetailView, CreateView, UpdateView, DeleteView)
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Job
+from django.urls import reverse_lazy
 
 
 class BaseView(TemplateView):
@@ -82,11 +83,15 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
     profile_form = UserProfileForm
 
     def get(self, request, *args, **kwargs):
+        exp = models.Experience.objects.all()
         user_form = self.user_form
         profile_form = self.profile_form
 
         return render(request, self.template_name,
-                      {'u_form': user_form, 'p_form': profile_form})
+                      {'u_form': user_form, 'p_form': profile_form, 'exp': exp})
+
+    def exp_location(request):
+        return render(request, template_name='main/experience_list.html', )
 
     def post(self, request, *args, **kwargs):
         user_form = UserFormUpdate(request.POST, instance=request.user)
@@ -95,7 +100,7 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
             user_form.save()
             profile_form.save()
             messages.success(request, 'Your profile has been updated succesfully!')
-            return redirect('/home/')
+            return redirect('/home/SugJob/')
         else:
             messages.error(request, 'Incomplete info!')
 
@@ -106,33 +111,35 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
 def log_out(request):
     logout(request)
     return redirect('/home/')
-  
+
+
 # The LoginRequiredMixin it's the same of login_required but for classes
-class SuggestionJobView(LoginRequiredMixin,TemplateView):
+class SuggestionJobView(LoginRequiredMixin, TemplateView):
     template_name = 'home-page.html'
     List1 = Job.objects.filter(category='IT').first()
     List2 = Job.objects.filter(category="Medical").first()
     List3 = Job.objects.filter(category='Engineering').first()
     List4 = Job.objects.filter(category='Design').first()
 
-    def get(self,request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         model = self.List1
         model2 = self.List2
         model3 = self.List3
         model4 = self.List4
         context = {
             'model': model,
-            'model2' : model2,
-            'model3' : model3,
-            'model4' : model4,
-            }
-        return render(request,self.template_name,context)
+            'model2': model2,
+            'model3': model3,
+            'model4': model4,
+        }
+        return render(request, self.template_name, context)
+
 
 class ResultView(ListView):
     template = 'result-page.html'
     Model = Job
 
-    def get(self,request,*args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect('/home/SugJob')
         return redirect('/home/')
@@ -141,7 +148,40 @@ class ResultView(ListView):
         SearchBar = request.POST['SearchBar']
         jobs = self.Model.objects.filter(title=SearchBar)
         context = {
-        'SearchBar' : SearchBar,
-        'jobs' : jobs,
+            'SearchBar': SearchBar,
+            'jobs': jobs,
         }
-        return render(request, self.template,context)
+        return render(request, self.template, context)
+
+
+class ExperienceListView(ListView):
+    context_object_name = "experience"
+
+    def get_queryset(self):
+        """Return Experiences"""
+        return models.Experience.objects.order_by('id')
+
+
+class ExperienceDetailView(DetailView):
+    context_object_name = 'exp_detail'
+    model = models.Experience
+    template_name = 'main/experience_detail.html'
+
+
+class ExperienceCreateView(CreateView):
+    model = models.Experience
+    fields = '__all__'
+
+
+class ExperienceUpdateView(UpdateView):
+    models = models.Experience
+    fields = '__all__'
+
+    def get_queryset(self):
+        """Return Experience"""
+        return models.Experience.objects.order_by('id')
+
+
+class ExperienceDeleteView(DeleteView):
+    model = models.Experience
+    success_url = reverse_lazy("main:detail")

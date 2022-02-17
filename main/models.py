@@ -1,16 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 import datetime
+
 
 # User table
 class UserInformation(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    Bio = models.TextField(null=True,blank=True)
-    CareerPath = models.CharField(max_length=255,null=True,blank=True)
-    Experience = models.TextField(null=True,blank=True)
+    Bio = models.TextField(null=True, blank=True)
+    CareerPath = models.CharField(max_length=255, null=True, blank=True)
     DateOfBirth = models.DateField(default=datetime.date.today)
     ProfilePic = models.ImageField(default='profile_pics/default.png', upload_to='profile_pics')
-    Gender = models.CharField(max_length=10, choices=[('F', 'Female'), ('M', 'Male')],blank=True,null=True)
+    Gender = models.CharField(max_length=10, choices=[('F', 'Female'), ('M', 'Male')], blank=True, null=True)
 
     def __str__(self):
         return self.user.username
@@ -23,6 +24,7 @@ class Job(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     company_name = models.TextField()
     category = models.CharField(max_length=255)
+
     def __str__(self):
         return self.title + " " + self.category
 
@@ -33,3 +35,18 @@ class AppliedJob(models.Model):
 
     def __str__(self):
         return str(self.user) + "-" + str(self.job)
+
+
+class Experience(models.Model):
+    position = models.CharField(max_length=70)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+    company_name = models.TextField()
+    description = models.TextField(null=True, blank=True)
+    user = models.ForeignKey(UserInformation, on_delete=models.CASCADE, related_name='experience')
+
+    def get_absolute_url(self):
+        return reverse('main:detail', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return str(self.id) + "-" + self.position

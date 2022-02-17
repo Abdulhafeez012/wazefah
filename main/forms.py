@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserInformation, Job
+from .models import UserInformation, Experience
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -19,4 +19,10 @@ class UserFormUpdate(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta():
         model = UserInformation
-        fields = ('ProfilePic', 'CareerPath', 'Bio', 'Experience', 'Gender')
+        fields = ('ProfilePic', 'CareerPath', 'Bio', 'Gender')
+
+
+class UserExpForm(forms.ModelForm):
+    class Meta():
+        model = Experience
+        fields = '__all__'

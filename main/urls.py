@@ -6,10 +6,16 @@ from django.conf import settings
 app_name = 'main'
 
 urlpatterns = [
-    path('', views.BaseView.as_view(), name='base'),
-    path('home/', views.HomeView.as_view(), name='home'),
-    path('logIn/', views.LogInView.as_view(), name='login'),
-    path('logout/', views.log_out, name='logout'),
-    path('register/', views.SignUp.as_view(), name='register'),
-    path('profilepage/', views.UserProfileView.as_view(), name='detail'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('', views.BaseView.as_view(), name='base'),
+                  path('home/', views.HomeView.as_view(), name='home'),
+                  path('logIn/', views.LogInView.as_view(), name='login'),
+                  path('logout/', views.log_out, name='logout'),
+                  path('register/', views.SignUp.as_view(), name='register'),
+                  path('home/SugJob/', views.SuggestionJobView.as_view(), name='SuggestionJob'),
+                  path('profilepage/', views.UserProfileView.as_view(), name='detail'),
+                  path('result', views.ResultView.as_view(), name='result'),
+                  path('profilepage/<int:pk>', views.ExperienceDetailView.as_view(), name='detail'),
+                  path('create/', views.ExperienceCreateView.as_view(), name='create'),
+                  path('update/<int:pk>', views.ExperienceUpdateView.as_view(), name='update'),
+                  path('delete/<int:pk>', views.ExperienceDeleteView.as_view(), name='delete'),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
