@@ -1,0 +1,11 @@
+#job_card {
+  max-width: 24rem;
+  max-height: 30rem;
+}
+#company_card {
+  width: 18rem;
+  height: 22rem;
+  border-color: #5b7ab3;
+  border-radius: 2em;
+  border-width: 0.2em;
+}

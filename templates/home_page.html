@@ -6,37 +6,17 @@
     <h2 class="text-dark text-center"> Suggestion Job </h2>
     <div class="d-flex flex-column align-items-center">
         <div class="d-flex flex-row flex-wrap justify-content-center">
-            <div class="card m-4 bg-primary" style="max-width: 18rem; max-height: 14rem;">
-                <h5 class=" align-self-center pt-3 text-light">{{ model.category}}</h5>
-                <div class="d-flex flex-column card-body text-light">
-                    <h5 class="card-title align-self-center">{{model.title}}</h5>
-                    <p class="card-text">{{ model.content}}</p>
-                    <a href="#" class="btn btn-light ">View The Job</a>
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+                {% for list in job_list %}
+                <div class="card m-4 bg-primary p-2" id="job_card">
+                    <h2 class=" align-self-center pt-3 text-light text-center">{{list.content}}</h2>
+                    <div class="d-flex flex-column card-body text-light">
+                        <h3 class="card-title align-self-center text-center">{{list.company_name}}</h3>
+                        <p class="card-text text-center">{{ list.created_on}}</p>
+                        <a href="#" class="btn btn-light ">Enroll The Job</a>
+                    </div>
                 </div>
-            </div>
-            <div class="card m-4 bg-primary" style="max-width: 18rem; max-height: 14rem;">
-                <h5 class=" align-self-center pt-3 text-light">{{ model2.category}}</h5>
-                <div class="d-flex flex-column card-body text-light">
-                    <h5 class="card-title align-self-center">{{model2.title}}</h5>
-                    <p class="card-text align-self-center">{{ model2.content}}</p>
-                    <a href="#" class="btn btn-light">View The Job</a>
-                </div>
-            </div>
-            <div class="card m-4 bg-primary" style="max-width: 18rem; max-height: 14rem;">
-                <h5 class=" align-self-center pt-3 text-light">{{ model3.category}}</h5>
-                <div class="d-flex flex-column card-body text-light">
-                    <h5 class="card-title align-self-center">{{model3.title}}</h5>
-                    <p class="card-text align-self-center">{{ model3.content}}</p>
-                    <a href="#" class="btn btn-light">View The Job</a>
-                </div>
-            </div>
-            <div class="card m-4 bg-primary" style="max-width: 18rem; max-height: 14rem;">
-                <h5 class=" align-self-center pt-3 text-light">{{ model4.category}}</h5>
-                <div class="d-flex flex-column card-body text-light">
-                    <h5 class="card-title align-self-center">{{model4.title}}</h5>
-                    <p class="card-text align-self-center   ">{{ model4.content}}</p>
-                    <a href="#" class="btn btn-light">View The Job</a>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -47,7 +27,7 @@
     <div class="d-flex flex-column align-items-center mt-4">
         <div class="d-flex flex-row flex-wrap justify-content-center">
             <div class="d-flex flex-column align-items-center m-4 " id="company_1">
-                <div class="card "
+                <div class="card"
                     style="width: 18rem; height: 22rem; ;border-color: #5b7ab3; border-radius: 2em; border-width: .2em;">
                     <img src="https://assets-global.website-files.com/5eb143b314c8f315c7e1a7e2/60ef526882122d7b9bdfb749_Sitech_Logo_Blue.svg"
                         class="card-img-top p-3" alt="Sitech">

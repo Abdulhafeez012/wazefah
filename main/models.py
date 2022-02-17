@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 #User table
 class UserInformation(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='user_info',on_delete=models.CASCADE)
     Experience = models.TextField(null=True)
     DateOfBirth = models.DateField()
     ProfilePic = models.ImageField(upload_to='profile-pics', blank=True)
@@ -25,8 +25,8 @@ class Job(models.Model):
         return self.title + " "+ self.category
 
 class AppliedJob(models.Model):
-    user = models.ForeignKey(UserInformation,on_delete=models.CASCADE,null=True)
-    job = models.ForeignKey(Job,on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(UserInformation, related_name='user_applied',on_delete=models.CASCADE,null=True)
+    job = models.ForeignKey(Job, related_name='job_applied',on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return str(self.user) +"-"+ str(self.job)
