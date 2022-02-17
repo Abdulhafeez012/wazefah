@@ -14,9 +14,7 @@
                     <form method="post">
                         {% csrf_token %}
                         <button value="submit" class="btn btn-danger">Delete</button>
-                        <a href="{% url 'main:detail' pk=experience.pk %}">
-                            <button class="btn btn-primary">Cancel</button>
-                        </a>
+                        <a href="{% url 'main:detail' pk=experience.pk %}" class="btn btn-primary">Cancel</a>
                     </form>
                 </div>
             </div>

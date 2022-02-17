@@ -10,14 +10,16 @@
                     <p><span class="efeild">Company: </span> {{ exp_detail.company_name }}</p>
                     <p><span class="efeild">Started Date: </span>{{ exp_detail.start_date }}</p>
                     <p><span class="efeild">End Date: </span>{{ exp_detail.end_date }}</p>
-                    <a class="update"
-                       href="{% url 'main:update' pk=exp_detail.pk %}">
-                        <button class="btn btn-warning">Update</button>
-                    </a>
-                    <a class="update"
-                       href="{% url 'main:delete' pk=exp_detail.pk %}">
-                        <button class="btn btn-danger">Delete</button>
-                    </a>
+                    <div>
+                        <a class="update"
+                           href="{% url 'main:update' pk=exp_detail.pk %}">
+                            <button class="btn btn-warning">Update</button>
+                        </a>
+                        <a class="update"
+                           href="{% url 'main:delete' pk=exp_detail.pk %}">
+                            <button class="btn btn-danger">Delete</button>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

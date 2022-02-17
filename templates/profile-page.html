@@ -63,12 +63,14 @@
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex flex-column justify-content-between">
                     {% for exps in exp %}
-                        <li>
-                            <a href="{{ exps.id }}">{{ exps.position }}</a>
-                            <p>{{ exps.description }}</p>
-                        </li>
+                        <ul class="exp-ul">
+                            <li class="border rounded">
+                                <a href="{{ exps.id }}" >{{ exps.position }}</a>
+                                <p>{{ exps.description }}</p>
+                            </li>
+                        </ul>
                     {% endfor %}
                 </div>
             </div>
