@@ -20,13 +20,8 @@
     <div class="card border-primary" id="form_card">
         <div class="card-header">Search Card</div>
         <div class="card-body text-primary">
-            <form method="post">
-                {% csrf_token %}
-                {%crispy job_filter.form%}
-                <button type="submit" class="input-group-text btn-primary rounded "><i class="bi bi-search me-2"></i>
-                    Search
-                </button>
-            </form>
+            {% csrf_token %}
+            {{filter}}
         </div>
     </div>
     {% if request.method == 'POST' %}

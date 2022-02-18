@@ -1,15 +1,14 @@
-from multiprocessing import context
-from unicodedata import category
 from django.shortcuts import render, redirect
-from .forms import UserForm
 from django.views.generic import (TemplateView, View, ListView)
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django_filters.views import FilterView
 from .filter import JobFilter
 from .models import Job
+from .forms import UserForm
 
 class BaseView(TemplateView):
     template_name = 'base.html'
@@ -90,20 +89,20 @@ class SuggestionJobView(LoginRequiredMixin,TemplateView):
             }
         return render(request,self.template_name,context)
 
-class ResultView(ListView):
+class ResultView(FilterView):
     result_template = 'result_page.html'
-    my_filter = JobFilter
+    filter = JobFilter
 
     def get(self,request,*args,**kwargs):
-        job_filter = self.my_filter()
+        job_filter = self.filter()
         context = {
-            'job_filter' : job_filter,
+            'filter' : job_filter,
         }
         return render(request,self.result_template,context)
 
     def post(self,request,*args,**kwargs):
         job_model = Job.objects.all()
-        job_filter = self.my_filter(request.POST, queryset=job_model)
+        job_filter = self.filter(request.POST, queryset=job_model)
         job_model = job_filter.qs
         context = {
             'job_filter' : job_filter,
