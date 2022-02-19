@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django_filters.views import FilterView
 from .filter import JobFilter
 from .models import Job
 from .forms import UserForm
@@ -89,23 +88,23 @@ class SuggestionJobView(LoginRequiredMixin,TemplateView):
             }
         return render(request,self.template_name,context)
 
-class ResultView(FilterView):
+class ResultView(View):
     result_template = 'result_page.html'
     filter = JobFilter
+    model = Job.objects.all().values()
 
     def get(self,request,*args,**kwargs):
-        job_filter = self.filter()
+        result_filter = self.filter()
         context = {
-            'filter' : job_filter,
+            'filter' : result_filter,
         }
         return render(request,self.result_template,context)
 
     def post(self,request,*args,**kwargs):
-        job_model = Job.objects.all()
-        job_filter = self.filter(request.POST, queryset=job_model)
-        job_model = job_filter.qs
+        job_filter = self.filter(request.POST, queryset=self.model)
+        self.model = job_filter.qs
         context = {
-            'job_filter' : job_filter,
-            'job_model' : job_model,
+            'filter' : job_filter,
+            'job_model' : self.model,
         }
         return render(request,self.result_template,context)

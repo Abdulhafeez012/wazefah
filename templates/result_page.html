@@ -17,15 +17,47 @@
         </div>
     </div>
     {% endif %}
-    <div class="card border-primary" id="form_card">
-        <div class="card-header">Search Card</div>
+    <div class="card border-primary p-3" id="form_card">
+        <h3 class="text-center">Filtering Your Search</h3>
         <div class="card-body text-primary">
-            {% csrf_token %}
-            {{filter}}
+            <form method="post" class="d-flex flex-column">
+                {% csrf_token %}
+                <div class="d-flex flex-row m-3 justify-content-around">
+                    {{filter.form|crispy}}
+                </div>
+                <button type="submit" class="btn btn-primary">submit</button>
+            </form>
         </div>
     </div>
     {% if request.method == 'POST' %}
-    <div class="d-flex flex-column align-items-center">
+    <table class="table table-striped">
+        <thead>
+            <tr class="text-uppercase">
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+                <th scope="col">Created On</th>
+                <th scope="col">Company Name</th>
+                <th scope="col">Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in job_model %}
+            <tr>
+                <td>{{job.title}}</td>
+                <td>{{job.content}}</td>
+                <td>{{job.created_on}}</td>
+                <td>{{job.company_name}}</td>
+                <td>{{job.category}}</td>
+            </tr>
+            {% empty%}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Sorry!</strong> There is No Job Yet related to your search
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- <div class="d-flex flex-column align-items-center">
         <div class="d-flex flex-row flex-wrap justify-content-center">
             {% for job in job_model %}
             <div class="card m-4 bg-primary" style="max-width: 24rem; max-height: 30rem;">
@@ -43,7 +75,7 @@
             </div>
             {% endfor %}
         </div>
-    </div>
+    </div> -->
     {% endif %}
 </div>
 {% endblock %}

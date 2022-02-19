@@ -1,18 +1,18 @@
-from ast import For
+from datetime import datetime
+from django import forms
 from django_filters import FilterSet
-from django_filters import DateRangeFilter
+from django_filters import CharFilter, DateFilter
 from .models import Job
-from django_filters.filterset import forms
-from crispy_forms.helper import FormHelper
+
 
 class JobFilter(FilterSet):
-    created_on = DateRangeFilter(field_name='created_on')
-    class Meta():
-        form = forms
+    title = CharFilter(label='Job Title')
+    company_name = CharFilter(label='Company Name')
+    category = CharFilter(label='Category')
+    create_on = DateFilter(field_name='created_on',label='Created On',widget=forms.DateTimeField)
+    class Meta:
         model = Job
-        fields = [
-            'title',
-            'company_name', 
-            'category',
-            ]
-
+        fields = []
+        
+        
+    
