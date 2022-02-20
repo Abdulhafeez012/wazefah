@@ -90,9 +90,6 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name,
                       {'u_form': user_form, 'p_form': profile_form, 'exp': exp})
 
-    def exp_location(request):
-        return render(request, template_name='main/experience_list.html', )
-
     def post(self, request, *args, **kwargs):
         user_form = UserFormUpdate(request.POST, instance=request.user)
         profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userinformation)
