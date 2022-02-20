@@ -1,12 +1,13 @@
+from dataclasses import fields
 from django.shortcuts import render, redirect
-from django.views.generic import (TemplateView, View, ListView)
+from django.views.generic import (TemplateView, View, ListView, CreateView)
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .filter import JobFilter
-from .models import Job
+from .models import Job, AppliedJob
 from .forms import UserForm
 
 class BaseView(TemplateView):
@@ -88,7 +89,7 @@ class SuggestionJobView(LoginRequiredMixin,TemplateView):
             }
         return render(request,self.template_name,context)
 
-class ResultView(View):
+class ResultView(ListView):
     result_template = 'result_page.html'
     filter = JobFilter
     model = Job.objects.all().values()
@@ -107,4 +108,9 @@ class ResultView(View):
             'filter' : job_filter,
             'job_model' : self.model,
         }
+        print(self.model)
         return render(request,self.result_template,context)
+
+class AddJob(LoginRequiredMixin,CreateView):
+    model = AppliedJob
+        

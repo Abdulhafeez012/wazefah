@@ -8,12 +8,43 @@
         <div class="d-flex flex-row flex-wrap justify-content-center">
             <div class="d-flex flex-row flex-wrap justify-content-center">
                 {% for list in job_list %}
-                <div class="card m-4 bg-primary p-2" id="job_card">
-                    <h2 class=" align-self-center pt-3 text-light text-center">{{list.content}}</h2>
-                    <div class="d-flex flex-column card-body text-light">
-                        <h3 class="card-title align-self-center text-center">{{list.company_name}}</h3>
-                        <p class="card-text text-center">{{ list.created_on}}</p>
-                        <a href="#" class="btn btn-light ">Enroll The Job</a>
+                <div class="card m-4 bg-light p-2" id="job_card">
+                    <div class=" bg-light text-dark text-center pt-3">{{list.category}}</div>
+                    <hr>
+                    <div class="d-flex flex-column card-body text-dark">
+                        <h4 class="card-title align-self-center text-center">{{list.title}}</h4>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop{{list.id}}">
+                            View the Job
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop{{list.id}}" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Job Details </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="alert alert-secondary" role="alert">
+                                            <h4 class="alert-heading">{{list.title}}</h4>
+                                            <p>{{list.content}}</p>
+                                            <p class="mb-0">Advertised company :- {{list.company_name}}
+                                            </p>
+                                            <p>The Date of advertised this job :- <time>{{list.created_on}}</time></p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Enroll The Job</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -34,8 +65,10 @@
                     <div class="card-body p-2">
                         <h5 class="card-title text-primary text-uppercase"
                             style="text-align: center; font-weight: bolder;">Sitech</h5>
-                        <p class="card-text text-primary" style="text-align: left;">Helping enterprises accelerate their
-                            digital growth through custom software development and innovative digital product design.
+                        <p class="card-text text-primary" style="text-align: left;">Helping enterprises accelerate
+                            their
+                            digital growth through custom software development and innovative digital product
+                            design.
                         </p>
                         <section class="d-flex justify-content-center"><a href="https://www.sitech.me/" target="blank"
                                 class="btn btn-primary">Visit Website</a></section>
@@ -49,7 +82,8 @@
                     <div class="card-body p-2">
                         <h5 class="card-title text-primary text-uppercase"
                             style="text-align: center; font-weight: bolder;">Ikea</h5>
-                        <p class="card-text text-primary" style="text-align: left;">At IKEA, you'll find our range of
+                        <p class="card-text text-primary" style="text-align: left;">At IKEA, you'll find our range
+                            of
                             well designed,
                             affordable home furnishing solutions – all waiting to be tried out.</p>
                         <section class="d-flex justify-content-center"><a href="https://www.ikea.com/jo/en/"
@@ -97,7 +131,8 @@
                     <div class="card-body p-2">
                         <h5 class="card-title text-primary text-uppercase"
                             style="text-align: center; font-weight: bolder;">PandoSoft</h5>
-                        <p class="card-text text-primary" style="text-align: left;">a fast-growing software development
+                        <p class="card-text text-primary" style="text-align: left;">a fast-growing software
+                            development
                             company with highly-experienced teams to deliver high-quality.</p>
                         <section class="d-flex justify-content-center"><a href="https://pando-soft.com/en/"
                                 target="blank" class="btn btn-primary">Visit Website</a></section>
@@ -145,7 +180,8 @@
                         <h5 class="card-title text-primary text-uppercase"
                             style="text-align: center; font-weight: bolder;">Cisco</h5>
                         <p class="card-text text-primary" style="text-align: left;">Cisco delivers innovative
-                            software-defined networking, cloud, and security solutions to help transform your business.
+                            software-defined networking, cloud, and security solutions to help transform your
+                            business.
                         </p>
                         <section class="d-flex justify-content-center"><a href="https://www.cisco.com/" target="blank"
                                 class="btn btn-primary">Visit Website</a></section>

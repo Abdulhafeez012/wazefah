@@ -10,4 +10,5 @@ urlpatterns = [
     path('register/',views.SignUp.as_view(),name='register'),
     path('home/SugJob/',views.SuggestionJobView.as_view(),name='suggestion_job'),
     path('result/',views.ResultView.as_view(),name='result'),
+    path('home/SugJob/',views.AddJob.as_view(), name='add_job'),
 ]

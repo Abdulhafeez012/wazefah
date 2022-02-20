@@ -9,7 +9,7 @@ class JobFilter(FilterSet):
     title = CharFilter(label='Job Title')
     company_name = CharFilter(label='Company Name')
     category = CharFilter(label='Category')
-    create_on = DateFilter(field_name='created_on',label='Created On',widget=forms.DateTimeField)
+    create_on = DateFilter(field_name='created_on',label='Created On',widget=forms.DateInput(format=('%Y-%m-%d'),attrs={'type' : 'date','max' : datetime.now().date()}))
     class Meta:
         model = Job
         fields = []
