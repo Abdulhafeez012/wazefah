@@ -42,7 +42,7 @@ class SignUp(TemplateView):
 
             if user is not None:
                 login(request, user)
-                return redirect('/home/SugJob')
+                return redirect('main:SuggestionJob')
             registered = True
         else:
             print(user_form.errors)
@@ -63,17 +63,17 @@ class LogInView(View):
         form = self.Form(request.POST)
 
         if request.user.is_authenticated:
-            return redirect('/home/SugJob')
+            return redirect('main:SuggestionJob')
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
-            return redirect('/home/SugJob')
+            return redirect('main:SuggestionJob')
         else:
             messages.success(request, ("The username or password in not correct please try again "))
-            return redirect('/logIn/')
+            return redirect('main:login')
 
 
 class UserProfileView(LoginRequiredMixin, TemplateView):
@@ -95,7 +95,7 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
             user_form.save()
             profile_form.save()
             messages.success(request, 'Your profile has been updated succesfully!')
-            return redirect('/home/SugJob/')
+            return redirect('main:SuggestionJob')
         else:
             messages.error(request, 'Incomplete info!')
 
@@ -105,7 +105,7 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
 @login_required
 def log_out(request):
     logout(request)
-    return redirect('/home/')
+    return redirect('main:home')
   
 # The LoginRequiredMixin it's the same of login_required but for classes
 class SuggestionJobView(LoginRequiredMixin,TemplateView):
@@ -135,7 +135,7 @@ class ResultView(ListView):
     def get(self,request,*args, **kwargs):
         if request.user.is_authenticated:
             return redirect('/home/SugJob')
-        return redirect('/home/')
+        return redirect('main:home')
 
     def post(self, request, *args, **kwargs):
         SearchBar = request.POST['SearchBar']
