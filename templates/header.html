@@ -27,8 +27,10 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="#footer">Contact Us</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary active mx-2" href="{% url 'main:result' %}">search</a>
+                    </li>
                 </ul>
-                <a class="btn btn-primary active mx-2" href="{% url 'main:result' %}">search</a>
                 {% if not user.is_authenticated %}
                 <div class="d-flex">
                     <a class="btn btn-primary mx-2" href="{% url 'main:log_in' %}">Log In</a>

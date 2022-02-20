@@ -1,4 +1,3 @@
-from dataclasses import fields
 from django.shortcuts import render, redirect
 from django.views.generic import (TemplateView, View, ListView, CreateView)
 from django.contrib.auth import login, logout, authenticate
@@ -7,8 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .filter import JobFilter
-from .models import Job, AppliedJob
+from .models import Job
 from .forms import UserForm
+
 
 class BaseView(TemplateView):
     template_name = 'base.html'
@@ -16,7 +16,7 @@ class BaseView(TemplateView):
 
 class HomeView(TemplateView):
     template_name = 'home_page.html'
-
+    
 
 class SignUp(TemplateView):
     template_name = 'sign_up.html'
@@ -90,27 +90,21 @@ class SuggestionJobView(LoginRequiredMixin,TemplateView):
         return render(request,self.template_name,context)
 
 class ResultView(ListView):
-    result_template = 'result_page.html'
-    filter = JobFilter
-    model = Job.objects.all().values()
+    template_name = 'result_page.html'
 
     def get(self,request,*args,**kwargs):
-        result_filter = self.filter()
+        filter = JobFilter()
         context = {
-            'filter' : result_filter,
+            'filter' : filter,
         }
-        return render(request,self.result_template,context)
+        return render(request,self.template_name,context)
 
     def post(self,request,*args,**kwargs):
-        job_filter = self.filter(request.POST, queryset=self.model)
-        self.model = job_filter.qs
+        model = Job.objects.all().values()
+        filter = JobFilter(request.POST, queryset=model)
+        model = filter.qs
         context = {
-            'filter' : job_filter,
-            'job_model' : self.model,
+            'filter' : filter,
+            'job_model' : model,
         }
-        print(self.model)
-        return render(request,self.result_template,context)
-
-class AddJob(LoginRequiredMixin,CreateView):
-    model = AppliedJob
-        
+        return render(request,self.template_name,context)
