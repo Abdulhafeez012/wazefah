@@ -3,7 +3,7 @@
 {% block result_block %}
 <div class="container my-4">
     {% if not user.is_authenticated %}
-    <div class="alert alert-danger d-flex justify-content-center" role="alert">
+    <div class="alert alert-danger d-flex justify-content-center" role="alert" id="alert">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
             class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
             aria-label="Warning:">
@@ -12,7 +12,7 @@
         </svg>
         <div class="text-center">
             You Are Not log In ... Please log In to can you apply a job<br>
-            If you don't have an account yet :-<a href="{% url 'main:register' %}"
+            If you don't have an account yet :-<a href="{% url 'main:register'%}"
                 class="btn btn-primary active align-self-center mx-3">Sign Up</a>
         </div>
     </div>
@@ -31,7 +31,7 @@
     </div>
     {% if request.method == 'POST' %}
     <div class="table-responsive mt-3">
-        <table class="table table-dark table-striped">
+        <table class="table table-dark table-striped" id="table">
             <thead>
                 <tr class="text-uppercase">
                     <th scope="col">Title</th>
@@ -47,7 +47,7 @@
                     <td>{{job.title}}</td>
                     <td>{{job.category}}</td>
                     {% if user.is_authenticated%}
-                    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    <td class="p-3"><button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop{{job.id}}">
                             View the Job
                         </button></td>

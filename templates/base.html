@@ -22,7 +22,7 @@
 
 <body class="d-flex flex-column min-vh-100">
     {% include 'header.html' %}
-    {% if 'logIn' in request.path %}
+    {% if 'login' in request.path %}
     <div>
         {% if messages %}
         <div>
@@ -43,7 +43,7 @@
         {% endif %}
     </div>
     <div class="container d-flex justify-content-center" style="margin-top: 150px; margin-bottom: 100px;">
-        {% block logIn_block %}
+        {% block login_block %}
 
         {% endblock %}
     </div>
@@ -55,11 +55,9 @@
     </div>
     {% endif %}
     {% if 'result' in request.path %}
-    <div>
-        {% block result_block %}
+    {% block result_block %}
 
-        {% endblock %}
-    </div>
+    {% endblock %}
     {% else %}
     {% block body_block %}
 
