@@ -1,147 +1,133 @@
-from django.shortcuts import render, redirect
-from .forms import UserForm, UserProfileForm, UserFormUpdate
-from . import models
-from django.views.generic import (TemplateView, View, ListView)
-from django.contrib.auth import login, logout, authenticate
+from django.shortcuts import (
+    render, 
+    redirect,
+)
+from django.views.generic import (
+    TemplateView,
+    ListView,
+)
+from django.contrib.auth import (
+    login, 
+    logout, 
+    authenticate,
+)
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Job
-
+from .filter import JobFilter
+from .models import (
+    AppliedJob, 
+    Job, 
+    UserInformation,
+)
+from .forms import UserForm
 
 class BaseView(TemplateView):
     template_name = 'base.html'
 
-
-class HomeView(BaseView, TemplateView):
-    template_name = 'home-page.html'
-
+class HomeView(TemplateView):
+    template_name = 'home_page.html'
+    
 
 class SignUp(TemplateView):
-    template_name = 'sign-up.html'
+    template_name = 'sign_up.html'
     user_form = UserForm
-    profile_form = UserProfileForm
 
-    def get(self, request, *args, **kwargs):
-        uform = self.user_form
-        return render(request, self.template_name, {'user_form': uform})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = self.user_form
+        return context
 
     def post(self, request, *args, **kwargs):
-        registered = False
         user_form = UserForm(data=request.POST)
-        profile_form = self.profile_form(data=request.POST)
         if user_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
-
-            if user is not None:
+            if user:
                 login(request, user)
-                return redirect('main:SuggestionJob')
-            registered = True
-        else:
-            print(user_form.errors)
+                return redirect('main:user_home')
 
-        return render(request, self.template_name, {'user_form': user_form,
-                                                    'registered': registered})
+        return render(request, self.template_name, {'user_form': user_form})
 
 
-class LogInView(View):
+class LogInView(TemplateView):
     Form = AuthenticationForm
-    template1 = 'login.html'
+    template_name = 'login.html'
 
-    def get(self, request, *args, **kwargs):
-        form = self.Form()
-        return render(request, self.template1, {'form': form})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.Form
+        return context
 
     def post(self, request, *args, **kwargs):
-        form = self.Form(request.POST)
-
-        if request.user.is_authenticated:
-            return redirect('main:SuggestionJob')
+        #use request.POST instead form.cleaned_date becuase the AuthenticationForm is class of Form not model form 
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
 
-        if user is not None:
+        if user:
             login(request, user)
-            return redirect('main:SuggestionJob')
-        else:
-            messages.success(request, ("The username or password in not correct please try again "))
-            return redirect('main:login')
-
-
-class UserProfileView(LoginRequiredMixin, TemplateView):
-    template_name = 'profile-page.html'
-    user_form = UserFormUpdate
-    profile_form = UserProfileForm
-
-    def get(self, request, *args, **kwargs):
-        user_form = self.user_form
-        profile_form = self.profile_form
-
-        return render(request, self.template_name,
-                      {'u_form': user_form, 'p_form': profile_form})
-
-    def post(self, request, *args, **kwargs):
-        user_form = UserFormUpdate(request.POST, instance=request.user)
-        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userinformation)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, 'Your profile has been updated succesfully!')
-            return redirect('main:SuggestionJob')
-        else:
-            messages.error(request, 'Incomplete info!')
-
-        return render(request, self.template_name, {'u_form': user_form, 'p_form': profile_form})
-
+            return redirect('main:user_home')
+        
+        messages.success(request, ("The username or password in not correct please try again "))
+        return redirect('main:login')
 
 @login_required
 def log_out(request):
     logout(request)
     return redirect('main:home')
-  
+
 # The LoginRequiredMixin it's the same of login_required but for classes
 class SuggestionJobView(LoginRequiredMixin,TemplateView):
-    template_name = 'home-page.html'
-    List1 = Job.objects.filter(category='IT').first()
-    List2 = Job.objects.filter(category="Medical").first()
-    List3 = Job.objects.filter(category='Engineering').first()
-    List4 = Job.objects.filter(category='Design').first()
+    template_name = 'home_page.html'
 
-    def get(self,request, *args, **kwargs):
-        model = self.List1
-        model2 = self.List2
-        model3 = self.List3
-        model4 = self.List4
-        context = {
-            'model': model,
-            'model2' : model2,
-            'model3' : model3,
-            'model4' : model4,
-            }
-        return render(request,self.template_name,context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        job_list = [
+            Job.objects.filter(category='IT').first(),
+            Job.objects.filter(category="Medical").first(),
+            Job.objects.filter(category='Engineering').first(),
+            Job.objects.filter(category='Design').first(),
+        ]
+        context['job_list'] = job_list
+        return context
+    
+    def post(self,request,*args,**kwargs):
+        user_id= UserInformation.objects.get(user=request.user.id)
+        job_id = Job.objects.get(id=request.POST.get('job_id'))
+        applied_job = AppliedJob.objects.create(
+            user=user_id,
+            job=job_id
+            )
+        applied_job.save()
+        return redirect('main:user_home')
 
 class ResultView(ListView):
-    template = 'result-page.html'
-    Model = Job
+    template_name = 'result_page.html'
 
-    def get(self,request,*args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect('/home/SugJob')
-        return redirect('main:home')
-
-    def post(self, request, *args, **kwargs):
-        SearchBar = request.POST['SearchBar']
-        jobs = self.Model.objects.filter(title=SearchBar)
+    def get(self,request,*args,**kwargs):
+        filter = JobFilter()
         context = {
-        'SearchBar' : SearchBar,
-        'jobs' : jobs,
+            'filter' : filter,
         }
-        return render(request, self.template,context)
+        return render(request,self.template_name,context)
+        
+    def post(self,request,*args,**kwargs):
+        model = Job.objects.all().values()
+        filter = JobFilter(request.POST, queryset=model)
+        model = filter.qs
+        context = {
+            'filter' : filter,
+            'job_model' : model,
+        }
+        if request.POST.get('job_id'):
+            user_id= UserInformation.objects.get(user=request.user.id)
+            job_id = Job.objects.get(id=request.POST.get('job_id'))
+            applied_job = AppliedJob.objects.create(
+                user=user_id,
+                job=job_id
+                )
+            applied_job.save()
+        return render(request,self.template_name,context)
