@@ -19,7 +19,7 @@ class UserFormUpdate(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta():
         model = UserInformation
-        fields = ('ProfilePic', 'CareerPath', 'Bio', 'Gender')
+        fields = ('profile_pic', 'career_path', 'bio', 'gender')
 
 
 class UserExpForm(forms.ModelForm):
