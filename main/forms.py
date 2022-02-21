@@ -14,8 +14,3 @@ class UserInformationForm(forms.ModelForm):
         model = UserInformation
         fields = ('ProfilePic', 'Experience', 'Gender', 'DateOfBirth')
         
-
-class AddJob(forms.ModelForm):
-    class Meta():
-        model=AppliedJob
-        exclude = ['user','job']

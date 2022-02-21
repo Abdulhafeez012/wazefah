@@ -73,7 +73,9 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Enroll The Job</button>
+                                    <a type="submit" class="btn btn-primary enroll-btn" data-job-id="{{ job.id }}"
+                                        href="{% url 'main:result' %}">Enroll The
+                                        Job</a>
                                 </div>
                             </div>
                         </div>
@@ -91,4 +93,20 @@
     </div>
     {% endif %}
 </div>
+<script>
+
+    $(document).ready(function () {
+        $(".enroll-btn").click(function (event) {
+            var jobId = $(event.currentTarget).data().jobId
+            $.post("{% url 'main:result' %}",
+                {
+                    'job_id': jobId,
+                    'csrfmiddlewaretoken': "{{ csrf_token }}"
+                },
+                function (data, status) {
+                    console.log
+                });
+        });
+    })
+</script>
 {% endblock %}

@@ -1,15 +1,14 @@
 from django.shortcuts import render, redirect
-from django.views.generic import (TemplateView, View, ListView, CreateView)
+from django.views.generic import (TemplateView, View, ListView)
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from .filter import JobFilter
 from .models import AppliedJob, Job, UserInformation
-from .forms import UserForm,AddJob
-from django.views.decorators.csrf import csrf_exempt
+from .forms import UserForm
+
 
 class BaseView(TemplateView):
     template_name = 'base.html'
@@ -47,7 +46,7 @@ class SignUp(TemplateView):
                                                     'registered': registered})
 
 
-class LogInView(TemplateView):
+class LogInView(View):
     Form = AuthenticationForm
     template_name = 'login.html'
 
@@ -91,21 +90,12 @@ class SuggestionJobView(LoginRequiredMixin,TemplateView):
         return render(request,self.template_name,context)
 
     def post(self,request,*args,**kwargs):
-        print(10)
-        applied_user= request.user
-        applied_job_id = request.POST.get('job_id')
-        form = AddJob(request.POST)
-        # form_2 = UserInformation()
-        print(11)
-        print(12)
-        form.instance.user_applied = applied_user   
-        # form.instance.job_applied = applied_job_id
-        # print(form.instance.job_applied)
-        print(form.instance.user_applied)
-        if form.is_valid():
-            print(13)
-            form.save()
-        print(14)
+        user_id= UserInformation.objects.get(user=request.user.id)
+        job_id = Job.objects.get(id=request.POST.get('job_id'))
+
+        applied_job = AppliedJob.objects.create(user=user_id,
+                    job=job_id)
+        applied_job.save()
         return redirect('main:suggestion_job')
 
 class ResultView(ListView):
@@ -126,4 +116,11 @@ class ResultView(ListView):
             'filter' : filter,
             'job_model' : model,
         }
+        if request.POST.get('job_id'):
+            user_id= UserInformation.objects.get(user=request.user.id)
+            job_id = Job.objects.get(id=request.POST.get('job_id'))
+
+            applied_job = AppliedJob.objects.create(user=user_id,
+                        job=job_id)
+            applied_job.save()
         return render(request,self.template_name,context)

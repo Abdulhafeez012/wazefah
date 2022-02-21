@@ -7,41 +7,40 @@
     <div class="d-flex flex-column align-items-center">
         <div class="d-flex flex-row flex-wrap justify-content-center">
             <div class="d-flex flex-row flex-wrap justify-content-center">
-                {% for list in job_list %}
-                <input type="hidden" id="asd" value="{{ list.pk }}">
+                {% for job in job_list %}
                 <div class="card m-4 bg-light p-2" id="job_card">
-                    <div class=" bg-light text-dark text-center pt-3">{{list.category}}</div>
+                    <div class=" bg-light text-dark text-center pt-3">{{job.category}}</div>
                     <hr>
                     <div class="d-flex flex-column card-body text-dark">
-                        <h4 class="card-title align-self-center text-center">{{list.title}}</h4>
+                        <h4 class="card-title align-self-center text-center">{{job.title}}</h4>
                         <button type="button" class="btn btn-primary qwe" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop-{{list.id}}">
+                            data-bs-target="#staticBackdrop-{{job.id}}">
                             View the Job
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="staticBackdrop-{{list.id}}" data-bs-backdrop="static"
+                        <div class="modal fade" id="staticBackdrop-{{job.id}}" data-bs-backdrop="static"
                             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
                             aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">Job Details {{list.id}} </h5>
+                                        <h5 class="modal-title" id="staticBackdropLabel">Job Details {{job.id}} </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="alert alert-secondary" role="alert">
-                                            <h4 class="alert-heading">{{list.title}}</h4>
-                                            <p>{{list.content}}</p>
-                                            <p class="mb-0">Advertised company :- {{list.company_name}}
+                                            <h4 class="alert-heading">{{job.title}}</h4>
+                                            <p>{{job.content}}</p>
+                                            <p class="mb-0">Advertised company :- {{job.company_name}}
                                             </p>
-                                            <p>The Date of advertised this job :- <time>{{list.created_on}}</time></p>
+                                            <p>The Date of advertised this job :- <time>{{job.created_on}}</time></p>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Cancel</button>
-                                        <a type="submit" class="btn btn-primary enroll-btn" data-job-id="{{ list.id }}"
+                                        <a type="submit" class="btn btn-primary enroll-btn" data-job-id="{{ job.id }}"
                                             href="{% url 'main:suggestion_job'%}">
                                             Enroll The Job
                                         </a>
