@@ -5,10 +5,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from .filter import JobFilter
-from .models import Job
-from .forms import UserForm
-
+from .models import AppliedJob, Job, UserInformation
+from .forms import UserForm,AddJob
+from django.views.decorators.csrf import csrf_exempt
 
 class BaseView(TemplateView):
     template_name = 'base.html'
@@ -88,6 +89,24 @@ class SuggestionJobView(LoginRequiredMixin,TemplateView):
             'job_list' : job_list,
             }
         return render(request,self.template_name,context)
+
+    def post(self,request,*args,**kwargs):
+        print(10)
+        applied_user= request.user
+        applied_job_id = request.POST.get('job_id')
+        form = AddJob(request.POST)
+        # form_2 = UserInformation()
+        print(11)
+        print(12)
+        form.instance.user_applied = applied_user   
+        # form.instance.job_applied = applied_job_id
+        # print(form.instance.job_applied)
+        print(form.instance.user_applied)
+        if form.is_valid():
+            print(13)
+            form.save()
+        print(14)
+        return redirect('main:suggestion_job')
 
 class ResultView(ListView):
     template_name = 'result_page.html'

@@ -8,23 +8,24 @@
         <div class="d-flex flex-row flex-wrap justify-content-center">
             <div class="d-flex flex-row flex-wrap justify-content-center">
                 {% for list in job_list %}
+                <input type="hidden" id="asd" value="{{ list.pk }}">
                 <div class="card m-4 bg-light p-2" id="job_card">
                     <div class=" bg-light text-dark text-center pt-3">{{list.category}}</div>
                     <hr>
                     <div class="d-flex flex-column card-body text-dark">
                         <h4 class="card-title align-self-center text-center">{{list.title}}</h4>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop{{list.id}}">
+                        <button type="button" class="btn btn-primary qwe" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop-{{list.id}}">
                             View the Job
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="staticBackdrop{{list.id}}" data-bs-backdrop="static"
+                        <div class="modal fade" id="staticBackdrop-{{list.id}}" data-bs-backdrop="static"
                             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
                             aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">Job Details </h5>
+                                        <h5 class="modal-title" id="staticBackdropLabel">Job Details {{list.id}} </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
@@ -39,8 +40,11 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Enroll The Job</button>
+                                            data-bs-dismiss="modal">Cancel</button>
+                                        <a type="submit" class="btn btn-primary enroll-btn" data-job-id="{{ list.id }}"
+                                            href="{% url 'main:suggestion_job'%}">
+                                            Enroll The Job
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -191,4 +195,20 @@
         </div>
     </div>
 </div>
+<script>
+
+    $(document).ready(function () {
+        $(".enroll-btn").click(function (event) {
+            var jobId = $(event.currentTarget).data().jobId
+            $.post("{% url 'main:suggestion_job' %}",
+                {
+                    'job_id': jobId,
+                    'csrfmiddlewaretoken': "{{ csrf_token }}"
+                },
+                function (data, status) {
+                    console.log
+                });
+        });
+    })
+</script>
 {% endblock %}
