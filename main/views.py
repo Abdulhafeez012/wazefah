@@ -83,12 +83,12 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
     profile_form = UserProfileForm
 
     def get(self, request, *args, **kwargs):
-        exp = models.Experience.objects.all()
+        experiences = models.Experience.objects.all()
         user_form = self.user_form
         profile_form = self.profile_form
 
         return render(request, self.template_name,
-                      {'u_form': user_form, 'p_form': profile_form, 'exp': exp})
+                      {'u_form': user_form, 'p_form': profile_form, 'exp': experiences})
 
     def post(self, request, *args, **kwargs):
         user_form = UserFormUpdate(request.POST, instance=request.user)
