@@ -41,9 +41,9 @@ class SignUp(TemplateView):
             profile.user = user
             profile.save()
 
-            if user is not None:
+            if user:
                 login(request, user)
-                return redirect('/home/SugJob')
+                return redirect('main:SuggestionJob')
             registered = True
         else:
             print(user_form.errors)
@@ -71,7 +71,7 @@ class LogInView(View):
 
         if user is not None:
             login(request, user)
-            return redirect('/home/SugJob')
+            return redirect('/home/SugJob/')
         else:
             messages.success(request, ("The username or password in not correct please try again "))
             return redirect('/logIn/')
