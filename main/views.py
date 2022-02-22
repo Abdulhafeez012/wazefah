@@ -1,14 +1,22 @@
-from django.shortcuts import render, redirect
-from .forms import UserForm, UserProfileForm, UserFormUpdate
-from . import models
-from django.views.generic import (TemplateView, View, ListView, DetailView, CreateView, UpdateView, DeleteView)
-from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Job
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.generic import (TemplateView,
+                                  View,
+                                  ListView,
+                                  DetailView,
+                                  CreateView,
+                                  UpdateView,
+                                  DeleteView
+                                  )
+
+from . import models
+from .forms import UserForm, UserProfileForm, UserFormUpdate
+from .models import Job
 
 
 class BaseView(TemplateView):
@@ -24,9 +32,10 @@ class SignUp(TemplateView):
     user_form = UserForm
     profile_form = UserProfileForm
 
-    def get(self, request, *args, **kwargs):
-        uform = self.user_form
-        return render(request, self.template_name, {'user_form': uform})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = self.user_form
+        return context
 
     def post(self, request, *args, **kwargs):
         registered = False
@@ -71,7 +80,7 @@ class LogInView(View):
 
         if user is not None:
             login(request, user)
-            return redirect('main:SuggestionJob')
+            return redirect('main:suggestion_job')
 
         else:
             messages.success(request, ("The username or password in not correct please try again "))
@@ -89,7 +98,7 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
         profile_form = self.profile_form
 
         return render(request, self.template_name,
-                      {'u_form': user_form, 'p_form': profile_form, 'exp': experiences})
+                      {'u_form': user_form, 'p_form': profile_form, 'expriences_list': experiences})
 
     def post(self, request, *args, **kwargs):
         user_form = UserFormUpdate(request.POST, instance=request.user)
@@ -108,9 +117,10 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
 @login_required
 def log_out(request):
     logout(request)
-    
+
     return redirect('main:home')
-  
+
+
 # The LoginRequiredMixin it's the same of login_required but for classes
 class SuggestionJobView(LoginRequiredMixin, TemplateView):
     template_name = 'home-page.html'
@@ -143,10 +153,10 @@ class ResultView(ListView):
         return redirect('main:home')
 
     def post(self, request, *args, **kwargs):
-        SearchBar = request.POST['SearchBar']
-        jobs = self.Model.objects.filter(title=SearchBar)
+        search_bar = request.POST['search_bar']
+        jobs = self.Model.objects.filter(title=search_bar)
         context = {
-            'SearchBar': SearchBar,
+            'search_bar': search_bar,
             'jobs': jobs,
         }
         return render(request, self.template, context)
@@ -161,25 +171,30 @@ class ExperienceListView(ListView):
 
 
 class ExperienceDetailView(DetailView):
-    context_object_name = 'exp_detail'
+    context_object_name = 'experience_detail'
     model = models.Experience
     template_name = 'main/experience_detail.html'
 
 
-class ExperienceCreateView(CreateView):
+class ExperienceCreateView(LoginRequiredMixin, CreateView):
     model = models.Experience
-    fields = '__all__'
+    fields = ['position', 'start_date', 'end_date', 'company_name', 'description']
+
+    def form_valid(self, form):
+        user_id = models.UserInformation.objects.get(user=self.request.user.id)
+        form.instance.user = user_id
+        return super().form_valid(form)
 
 
-class ExperienceUpdateView(UpdateView):
+class ExperienceUpdateView(LoginRequiredMixin, UpdateView):
     models = models.Experience
-    fields = '__all__'
+    fields = ['position', 'start_date', 'end_date', 'company_name', 'description']
 
     def get_queryset(self):
         """Return Experience"""
         return models.Experience.objects.order_by('id')
 
 
-class ExperienceDeleteView(DeleteView):
+class ExperienceDeleteView(LoginRequiredMixin, DeleteView):
     model = models.Experience
     success_url = reverse_lazy("main:detail")

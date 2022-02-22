@@ -34,7 +34,7 @@
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'main:SuggestionJob' %}">Home</a>
+                            <a class="nav-link active" href="{% url 'main:suggestion_job' %}">Home</a>
                         </li>
                         {% else %}
                         <li class="nav-item">
@@ -109,7 +109,7 @@
                 <div class="d-flex input-group mb-3">
                     <div class="d-flex flex-row-reverse border border-primary rounded mx-2">
                         <input type="text" class="form-control form-control-lg border-0"
-                            placeholder="Search For a Title Job" name="SearchBar">
+                            placeholder="Search For a Title Job" name="search_bar">
                         <div class="dropdown align-self-center">
                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
                                 data-bs-toggle="dropdown" aria-expanded="false">
