@@ -36,7 +36,6 @@
                 </svg>
                 <div>
                     {{ message }}
-                    >>>>>>> feature/ResultPage
                 </div>
             </div>
             {% endfor %}
@@ -54,51 +53,18 @@
 
         {% endblock %}
     </div>
-    <<<<<<< HEAD {% elif 'profilepage' in request.path %} <div
-        class="container d-flex flex-column justify-content-center" style="margin-top: 100px;margin-bottom: 50px">
-        {% block profile_block %}
+    {% endif %}
+    {% if 'result' in request.path %}
+    {% block result_block %}
 
-        {% endblock %}
-        </div>
-        {% else %}
-        <div class="container">
-            <div class="search d-flex flex-column align-items-center">
-                <form method="POST" action="{% url 'main:result' %}">{% csrf_token %}
-                    <div class="d-flex input-group mb-3">
-                        <div class="d-flex flex-row-reverse border border-primary rounded mx-2">
-                            <input type="text" class="form-control form-control-lg border-0"
-                                placeholder="Search For a Title Job" name="SearchBar">
-                            <div class="dropdown align-self-center">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="#">IT</a></li>
-                                    <li><a class="dropdown-item" href="#">Medical</a></li>
-                                    <li><a class="dropdown-item" href="#">Engineering</a></li>
-                                    <li><a class="dropdown-item" href="#">Design</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <button type="submit" class="input-group-text btn-primary rounded "><i
-                                class="bi bi-search me-2"></i> Search
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        {% endif %}
-        {% if 'result' in request.path %}
-        {% block result_block %}
-
-        {% endblock %}
-        {% else %}
-        {% block body_block %}
+    {% endblock %}
+    {% else %}
+    {% block body_block %}
 
 
-        {% endblock %}
-        {% endif %}
-        {% include 'footer.html' %}
+    {% endblock %}
+    {% endif %}
+    {% include 'footer.html' %}
 </body>
 
 </html>
