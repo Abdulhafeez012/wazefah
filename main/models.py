@@ -6,24 +6,23 @@ import datetime
 #User table
 class UserInformation(models.Model):
     user = models.OneToOneField(
-        User, 
-        related_name='user_info',
+        User,
         on_delete=models.CASCADE
         )
     bio = models.TextField(null=True, blank=True)
     career_path = models.CharField(
-        max_length=255, 
-        null=True, 
+        max_length=255,
+        null=True,
         blank=True
         )
     date_of_birth = models.DateField(default=datetime.date.today)
     profile_pic = models.ImageField(
-        default='profile_pics/default.png', 
+        default='profile_pics/default.png',
         upload_to='profile_pics'
         )
     gender = models.CharField(
-        max_length=10, 
-        choices=[('F', 'Female'), ('M', 'Male')], 
+        max_length=10,
+        choices=[('F', 'Female'), ('M', 'Male')],
         blank=True, null=True
         )
     def __str__(self):
@@ -44,13 +43,13 @@ class Job(models.Model):
 
 class AppliedJob(models.Model):
     user = models.ForeignKey(
-        UserInformation, 
+        UserInformation,
         related_name='user_applied',
         on_delete=models.CASCADE,
         null=True
         )
     job = models.ForeignKey(
-        Job, 
+        Job,
         related_name='job_applied',
         on_delete=models.CASCADE,
         null=True
@@ -66,9 +65,9 @@ class Experience(models.Model):
     company_name = models.TextField()
     description = models.TextField(null=True, blank=True)
     user = models.ForeignKey(
-        UserInformation, 
-        on_delete=models.CASCADE, 
-        related_name='experience'
+        UserInformation,
+        on_delete=models.CASCADE,
+        related_name='user_experience'
         )
 
     def get_absolute_url(self):

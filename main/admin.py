@@ -1,9 +1,9 @@
 from django.contrib import admin
 from .models import (
-  UserInformation, 
-  Job,
-  AppliedJob,
-  Experience,
+    UserInformation,
+    Job,
+    AppliedJob,
+    Experience,
 )
 
 admin.site.register(UserInformation)
