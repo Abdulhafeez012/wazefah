@@ -2,8 +2,7 @@
 <header class="header">
     <nav class="d-flex navbar navbar-expand-lg fixed-top navbar-light bg-light">
         <div class="container">
-            <img class="rounded-circle" src="{% static '/images/wazefah.png' %}" alt="wazefah-logo"
-                 style="width: 5em; height: 5em;">
+            <img class="rounded-circle wazefah-logo" src="{% static '/images/wazefah.png' %}" alt="wazefah-logo">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                     aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -47,7 +46,7 @@
                             aria-expanded="false">
                         <h2 class="text-uppercase">{{ user }}</h2>
                         <img src="{{ user.userinformation.profile_pic.url }}"
-                             alt="Profile image" class="rounded-circle" width="50rem" height="50rem">
+                             alt="Profile image" class="rounded-circle user-profile-pic">
                     </button>
                     <ul class="dropdown-menu px-3" aria-labelledby="dropdownmenu">
                         <li><a class="drpodown-item btn btn-primary active align-self-center"
