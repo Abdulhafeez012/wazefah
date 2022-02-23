@@ -69,7 +69,6 @@ class SignUp(TemplateView):
             if user:
                 login(request, user)
                 return redirect('main:user_home')
-
         return render(request, self.template_name, {'user_form': user_form})
 
 
@@ -107,19 +106,13 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
     user_form = UserFormUpdate
     profile_form = UserProfileForm
 
-    def get(self, request, *args, **kwargs):
-        experiences = Experience.objects.filter(user_id=request.user.id).values()
-        user_form = self.user_form
-        profile_form = self.profile_form
-
-        return render(
-            request,
-            self.template_name,
-            {'user_form': user_form,
-             'profile_form': profile_form,
-             'experiences_list': experiences
-             }
-        )
+    def get_context_data(self, **kwargs):
+        experiences = Experience.objects.filter(user_id=self.request.user.id).values()
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = self.user_form
+        context['profile_form'] = self.profile_form
+        context['experiences_list'] = experiences
+        return context
 
     def post(self, request, *args, **kwargs):
         user_form = UserFormUpdate(request.POST, instance=request.user)
@@ -132,12 +125,7 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
         else:
             messages.error(request, 'Incomplete info!')
 
-        return render(
-            request,
-            self.template_name,
-            {'user_form': user_form,
-             'profile_form': profile_form}
-        )
+        return redirect('main:profile')
 
 
 # The LoginRequiredMixin it's the same of login_required but for classes
