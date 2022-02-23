@@ -3,28 +3,30 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 import datetime
 
-#User table
+
+# User table
 class UserInformation(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE
-        )
+    )
     bio = models.TextField(null=True, blank=True)
     career_path = models.CharField(
         max_length=255,
         null=True,
         blank=True
-        )
+    )
     date_of_birth = models.DateField(default=datetime.date.today)
     profile_pic = models.ImageField(
         default='profile_pics/default.png',
         upload_to='profile_pics'
-        )
+    )
     gender = models.CharField(
         max_length=10,
         choices=[('F', 'Female'), ('M', 'Male')],
         blank=True, null=True
-        )
+    )
+
     def __str__(self):
         return self.user.username
 
@@ -47,16 +49,17 @@ class AppliedJob(models.Model):
         related_name='user_applied',
         on_delete=models.CASCADE,
         null=True
-        )
+    )
     job = models.ForeignKey(
         Job,
         related_name='job_applied',
         on_delete=models.CASCADE,
         null=True
-        )
+    )
 
     def __str__(self):
-        return str(self.user) +"-"+ str(self.job)
+        return str(self.user) + "-" + str(self.job)
+
 
 class Experience(models.Model):
     position = models.CharField(max_length=70)
@@ -68,7 +71,7 @@ class Experience(models.Model):
         UserInformation,
         on_delete=models.CASCADE,
         related_name='user_experience'
-        )
+    )
 
     def get_absolute_url(self):
         return reverse('main:detail', kwargs={'pk': self.pk})
@@ -76,3 +79,16 @@ class Experience(models.Model):
     def __str__(self):
         return str(self.id) + "-" + self.position
 
+
+class Company(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.CharField(max_length=50)
+    company_pic = models.ImageField(
+        default='company_pics/company.svg',
+        upload_to='company_pics'
+    )
+    description = models.TextField(max_length=200)
+    company_website = models.URLField()
+
+    def __str__(self):
+        return str(self.name)
