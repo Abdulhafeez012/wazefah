@@ -16,23 +16,23 @@ from django.contrib.auth import (
     logout,
     authenticate,
 )
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .filter import JobFilter
+from .forms import (
+    UserForm,
+    UserFormUpdate,
+    UserProfileForm
+)
 from .models import (
     AppliedJob,
     Job,
     UserInformation,
     Experience,
 )
-from .forms import (
-    UserForm,
-    UserFormUpdate,
-    UserProfileForm
-)
-
+from django.views.generic.edit import FormView
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .filter import JobFilter
 from django.urls import reverse_lazy
 
 
@@ -72,30 +72,20 @@ class SignUp(TemplateView):
         return render(request, self.template_name, {'user_form': user_form})
 
 
-class LogInView(TemplateView):
-    Form = AuthenticationForm
+class LogInView(FormView):
+    form_class = AuthenticationForm
     template_name = 'login.html'
+    success_url = reverse_lazy('main:user_home')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.Form
-        return context
-
-    def post(self, request, *args, **kwargs):
-        # use request.POST instead form.cleaned_date becuase the AuthenticationForm is class of Form not model form
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-
-        if user:
-            login(request, user)
-            return redirect('main:user_home')
-
-        messages.success(request, ("The username or password in not correct please try again "))
-        return redirect('main:login')
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(self.request, username=username, password=password)
+        login(self.request, user)
+        return super().form_valid(form)
 
 
-@login_required
+@ login_required
 def log_out(request):
     logout(request)
     return redirect('main:home')
@@ -107,7 +97,8 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
     profile_form = UserProfileForm
 
     def get_context_data(self, **kwargs):
-        experiences = Experience.objects.filter(user_id=self.request.user.id).values()
+        experiences = Experience.objects.filter(
+            user_id=self.request.user.id).values()
         context = super().get_context_data(**kwargs)
         context['user_form'] = self.user_form
         context['profile_form'] = self.profile_form
@@ -116,11 +107,13 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         user_form = UserFormUpdate(request.POST, instance=request.user)
-        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userinformation)
+        profile_form = UserProfileForm(
+            request.POST, request.FILES, instance=request.user.userinformation)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Your profile has been updated succesfully!')
+            messages.success(
+                request, 'Your profile has been updated succesfully!')
             return redirect('main:user_home')
         else:
             messages.error(request, 'Incomplete info!')
@@ -199,7 +192,8 @@ class ExperienceDetailView(DetailView):
 
 class ExperienceCreateView(LoginRequiredMixin, CreateView):
     model = Experience
-    fields = ['position', 'start_date', 'end_date', 'company_name', 'description']
+    fields = ['position', 'start_date',
+              'end_date', 'company_name', 'description']
 
     def form_valid(self, form):
         user_id = UserInformation.objects.get(user=self.request.user.id)
@@ -209,7 +203,8 @@ class ExperienceCreateView(LoginRequiredMixin, CreateView):
 
 class ExperienceUpdateView(LoginRequiredMixin, UpdateView):
     models = Experience
-    fields = ['position', 'start_date', 'end_date', 'company_name', 'description']
+    fields = ['position', 'start_date',
+              'end_date', 'company_name', 'description']
 
     def get_queryset(self):
         """Return Experience"""

@@ -11,6 +11,12 @@
             {{ user_form|crispy }}
             <button type="submit" class="btn btn-danger bd-highlight">Register</button>
         </form>
+        <hr>
+        <div class="d-flex mt-3 justify-content-center">
+            <p>You're have Already account ?<span><a class="btn btn-primary mx-4" href="{% url 'main:login' %}">Log
+                        In</a></span>
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}
