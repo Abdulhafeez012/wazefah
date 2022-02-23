@@ -14,6 +14,14 @@
             crossorigin="anonymous"></script>
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
     <link href="{% static 'css/result_page.css' %}" rel="stylesheet">
+    <link href="{% static 'css/home_page.css' %}" rel="stylesheet">
+    <link href="{% static 'css/footer_page.css' %}" rel="stylesheet">
+    <link href="{% static 'css/header_page.css' %}" rel="stylesheet">
+    <link href="{% static 'css/login_page.css' %}" rel="stylesheet">
+    <link href="{% static 'css/signup_page.css' %}" rel="stylesheet">
+    <link href="{% static 'css/profile_page.css' %}" rel="stylesheet">
+    <link href="{% static 'css/experience_form_page.css' %}" rel="stylesheet">
+
     <title>Wazefah</title>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
@@ -27,8 +35,7 @@
         {% if messages %}
             <div>
                 {% for message in messages %}
-                    <div class="alert alert-danger d-flex justify-content-center mx-5" role="alert"
-                         style="margin-top: 150px;">
+                    <div class="alert alert-danger d-flex justify-content-center mx-5 msg-container" role="alert">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                              class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
                              aria-label="Warning:">
@@ -43,19 +50,19 @@
             </div>
         {% endif %}
     </div>
-    <div class="container d-flex justify-content-center" style="margin-top: 150px; margin-bottom: 100px;">
+    <div class="container d-flex justify-content-center login-block">
         {% block login_block %}
 
         {% endblock %}
     </div>
 {% elif 'register' in request.path %}
-    <div class="container d-flex justify-content-center" style="margin-top: 150px;margin-bottom: 50px">
+    <div class="container d-flex justify-content-center register-block">
         {% block register_block %}
 
         {% endblock %}
     </div>
 {% elif 'profilepage' in request.path %}
-    <div class="container d-flex flex-column justify-content-center" style="margin-bottom: 50px">
+    <div class="container d-flex flex-column justify-content-center profile-block">
         {% block profile_block %}
 
         {% endblock %}
