@@ -49,9 +49,14 @@
                              alt="Profile image" class="rounded-circle user-profile-pic">
                     </button>
                     <ul class="dropdown-menu px-3" aria-labelledby="dropdownmenu">
-                        <li><a class="drpodown-item btn btn-primary active align-self-center"
-                               href="{% url 'main:profile' %}">Profile
-                            Page</a></li>
+                        {% if 'profilepage' in request.path %}
+                            <li><a class="drpodown-item btn btn-primary active align-self-center mt-2"
+                                   href="{% url 'main:user_home' %}">Home</a></li>
+                        {% else %}
+                            <li><a class="drpodown-item btn btn-primary active align-self-center"
+                                   href="{% url 'main:profile' %}">Profile
+                                Page</a></li>
+                        {% endif %}
                         <li><a class="drpodown-item btn btn-primary active align-self-center mt-2"
                                href="{% url 'main:logout' %}">Log
                             Out</a></li>
