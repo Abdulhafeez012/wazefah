@@ -85,8 +85,8 @@ class Company(models.Model):
     name = models.CharField(max_length=100)
     category = models.CharField(max_length=50)
     company_pic = models.ImageField(
-        default='company_pics_pics/default_img.png',
-        upload_to='company_pics_pics'
+        default='company_pics/default_img.png',
+        upload_to='company_pics'
     )
     description = models.TextField(max_length=200)
     compant_website = models.URLField()
