@@ -31,12 +31,30 @@ class UserInformation(models.Model):
         return self.user.username
 
 
+class Company(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.CharField(max_length=50)
+    company_pic = models.ImageField(
+        default='company_pics/company.svg',
+        upload_to='company_pics'
+    )
+    description = models.TextField(max_length=200)
+    company_website = models.URLField()
+
+    def __str__(self):
+        return str(self.name)
+
+
 # jobs table
 class Job(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    company_name = models.TextField()
+    company = models.ForeignKey(
+        Company,
+        models.CASCADE,
+        related_name="company_id"
+    )
     category = models.CharField(max_length=255)
 
     def __str__(self):
@@ -78,17 +96,3 @@ class Experience(models.Model):
 
     def __str__(self):
         return str(self.id) + "-" + self.position
-
-
-class Company(models.Model):
-    name = models.CharField(max_length=100)
-    category = models.CharField(max_length=50)
-    company_pic = models.ImageField(
-        default='company_pics/company.svg',
-        upload_to='company_pics'
-    )
-    description = models.TextField(max_length=200)
-    company_website = models.URLField()
-
-    def __str__(self):
-        return str(self.name)
