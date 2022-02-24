@@ -1,17 +1,22 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserInformation, Job
+from .models import UserInformation, Experience
 from django.contrib.auth.forms import UserCreationForm
 
 
 class UserForm(UserCreationForm):
     class Meta():
         model = User
-        fields = ('username', 'password1', 'password2')
+        fields = ('username', 'password1', 'password2',)
 
 
-class UserInformationForm(forms.ModelForm):
+class UserFormUpdate(forms.ModelForm):
+    class Meta():
+        model = User
+        fields = ('first_name', 'last_name')
+
+
+class UserProfileForm(forms.ModelForm):
     class Meta():
         model = UserInformation
-        fields = ('ProfilePic', 'Experience', 'Gender', 'DateOfBirth')
-
+        fields = ('profile_pic', 'career_path', 'bio', 'gender')

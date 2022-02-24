@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block body_block %}
+    <div class="d-flex justify-content-center experience">
+        <div class="d-flex card border-primary border-2" style="width: 40rem;">
+            <h2 class="align-self-center m-3 text-primary">Experience Details</h2>
+            <div class="card-body text-primary">
+                <div class="experience d-flex flex-column align-items-center">
+                    <p><span class="efeild">Position:</span> {{ experience_detail.position }}</p>
+                    <p><span class="efeild">Description:</span> {{ experience_detail.description }}</p>
+                    <p><span class="efeild">Company: </span> {{ experience_detail.company_name }}</p>
+                    <p><span class="efeild">Started Date: </span>{{ experience_detail.start_date }}</p>
+                    <p><span class="efeild">End Date: </span>{{ experience_detail.end_date }}</p>
+                    <div>
+                        <a class="update"
+                           href="{% url 'main:update' pk=experience_detail.pk %}">
+                            <button class="btn btn-warning">Update</button>
+                        </a>
+                        <a class="update"
+                           href="{% url 'main:delete' pk=experience_detail.pk %}">
+                            <button class="btn btn-danger">Delete</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
