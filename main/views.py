@@ -4,7 +4,6 @@ from django.shortcuts import (
 )
 from django.views.generic import (
     TemplateView,
-    View,
     ListView,
     DetailView,
     CreateView,
@@ -26,6 +25,7 @@ from .models import (
     Job,
     UserInformation,
     Experience,
+    Company,
 )
 from django.views.generic.edit import FormView
 from django.contrib import messages
@@ -40,8 +40,10 @@ class BaseView(TemplateView):
     template_name = 'base.html'
 
 
-class HomeView(TemplateView):
+class HomeView(ListView):
     template_name = 'home_page.html'
+    model = Company
+    context_object_name = "companies"
 
 
 class SignUp(TemplateView):
@@ -85,7 +87,7 @@ class LogInView(FormView):
         return super().form_valid(form)
 
 
-@ login_required
+@login_required
 def log_out(request):
     logout(request)
     return redirect('main:home')
@@ -113,7 +115,7 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
             user_form.save()
             profile_form.save()
             messages.success(
-                request, 'Your profile has been updated succesfully!')
+                request, 'Your profile has been updated successfully!')
             return redirect('main:user_home')
         else:
             messages.error(request, 'Incomplete info!')
@@ -129,11 +131,12 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         job_list = [
             Job.objects.filter(category='IT').first(),
-            Job.objects.filter(category="Medical").first(),
-            Job.objects.filter(category='Engineering').first(),
-            Job.objects.filter(category='Design').first(),
+            Job.objects.filter(category='Retail').first(),
+            Job.objects.filter(category='Customer Service').first(),
+            Job.objects.filter(category='Business').first(),
         ]
         context['job_list'] = job_list
+        context['companies'] = Company.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):

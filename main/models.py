@@ -1,3 +1,4 @@
+from logging import PlaceHolder
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -31,12 +32,30 @@ class UserInformation(models.Model):
         return self.user.username
 
 
+class Company(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.CharField(max_length=50)
+    company_pic = models.ImageField(
+        default='company_pics/company.svg',
+        upload_to='company_pics'
+    )
+    description = models.TextField(max_length=100,help_text='You have just 100 character (with space) for your description')
+    company_website = models.URLField()
+
+    def __str__(self):
+        return str(self.name)
+
+
 # jobs table
 class Job(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    company_name = models.TextField()
+    company = models.ForeignKey(
+        Company,
+        models.CASCADE,
+        related_name="company_id"
+    )
     category = models.CharField(max_length=255)
 
     def __str__(self):
