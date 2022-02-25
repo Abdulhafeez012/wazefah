@@ -3,10 +3,14 @@
     max-height: 30rem;
 }
 
-.job-card {
-    width: 18rem;
-    height: 22rem;
-    border-color: #5b7ab3;
-    border-radius: 2em;
+.company-card{
+    width: 18rem; 
+    height: 22rem; 
+    border-color: #5b7ab3; 
+    border-radius: 2em; 
     border-width: .2em;
+}
+.company-img{
+    max-width: 120px;
+    max-height: 6rem;
 }

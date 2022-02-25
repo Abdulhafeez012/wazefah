@@ -1,3 +1,4 @@
+from logging import PlaceHolder
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -38,7 +39,7 @@ class Company(models.Model):
         default='company_pics/company.svg',
         upload_to='company_pics'
     )
-    description = models.TextField(max_length=200)
+    description = models.TextField(max_length=100,help_text='You have just 100 character (with space) for your description')
     company_website = models.URLField()
 
     def __str__(self):
