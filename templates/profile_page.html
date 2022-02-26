@@ -4,28 +4,30 @@
 {% block profile_block %}
 
 
-<!--user info-->
+    <!--user info-->
     <div class="profile">
         <div class="container mt-5">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-7">
                     <div class="card p-3 py-4">
                         <div style="float:right">
-                            <a class="btn btn-secondary" href="#profile-settings" >
+                            <a class="btn btn-secondary" href="#profile-settings">
                                 <img src="/static/images/pencil-fill.svg">
                             </a>
                         </div>
                         <div class="text-center">
-                            <img src={{ user.userinformation.profile_pic.url }} width="100" class="rounded-circle">
+                            <img src="{{ user.userinformation.profile_pic.url }}"
+                                 class="rounded-circle user-profile-pic-profile">
                         </div>
 
                         <div class="text-center mt-3">
                             <span class="bg-secondary p-1 px-4 rounded text-white">{{ user.first_name }}</span>
-                             <h5 class="mt-2 mb-0"></h5>
-                            <span>{{ user.userinformation.career_path }}</span>
+                            <h5 class="mt-2 mb-0"></h5>
+                            <span><span>Career Path: </span>{{ user.userinformation.career_path }}</span>
                         </div>
 
                         <div class="px-4 mt-1">
+                            <span>Bio: </span>
                             <p class="fonts">{{ user.userinformation.bio }}</p>
                         </div>
                     </div>
@@ -36,41 +38,41 @@
 
 
 
-<!-- experience timeline-->
+    <!-- experience timeline-->
 
 
-<div class="container mt-5 mb-5" id="timeline-experience">
-	<div class="row">
-		<div class="col-md-6 offset-md-3">
-            <div>
-                <h4>Experience</h4>
+    <div class="container mt-5 mb-5" id="timeline-experience">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div>
+                    <h4>Experience</h4>
+                </div>
+
+
+                <div style="float:right">
+                    <a class="btn btn-secondary" href="{% url 'main:create' %}">
+                        <img src="/static/images/file-earmark-plus.svg">
+                    </a>
+                </div>
+
+                <div>
+                    {% for experience in experiences_list %}
+                        <ul class="timeline">
+                            <li>
+                                <a target="_blank" href="experience/{{ experience.id }}">{{ experience.position }}</a>
+                                <p>{{ experience.description }}</p>
+                            </li>
+                        </ul>
+                    {% endfor %}
+                </div>
             </div>
-
-
-            <div style="float:right">
-                <a class="btn btn-secondary" href="{% url 'main:create' %}">
-                    <img src="/static/images/file-earmark-plus.svg">
-                </a>
-            </div>
-
-            <div>
-                {% for experience in experiences_list %}
-                    <ul class="timeline">
-				        <li>
-					        <a target="_blank" href="experience/{{ experience.id }}">{{ experience.position }}</a>
-					        <p>{{ experience.description }}</p>
-				        </li>
-                    </ul>
-                {% endfor %}
-            </div>
-		</div>
-	</div>
-</div>
+        </div>
+    </div>
 
 
 
 
-<!--user profile form-->
+    <!--user profile form-->
     <div class="container rounded bg-white mt-5 mb-5 profile-form" id="profile-settings">
         <div class="row">
             <div class="col-md-3 ">
