@@ -39,7 +39,10 @@ class Company(models.Model):
         default='company_pics/company.svg',
         upload_to='company_pics'
     )
-    description = models.TextField(max_length=100,help_text='You have just 100 character (with space) for your description')
+    description = models.TextField(
+        max_length=256,
+        help_text='You have just 100 character (with space) for your description'
+    )
     company_website = models.URLField()
 
     def __str__(self):
