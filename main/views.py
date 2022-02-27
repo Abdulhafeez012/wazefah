@@ -145,11 +145,12 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         user_id = UserInformation.objects.get(user=request.user.id)
         job_id = Job.objects.get(id=request.POST.get('job_id'))
-        applied_job = AppliedJob.objects.create(
-            user=user_id,
-            job=job_id
-        )
-        applied_job.save()
+        if not AppliedJob.objects.filter(user=user_id, job=job_id).exists():
+            applied_job = AppliedJob.objects.create(
+                user=user_id,
+                job=job_id
+            )
+            applied_job.save()
         return redirect('main:user_home')
 
 
@@ -170,11 +171,13 @@ class ResultView(ListView):
         if request.POST.get('job_id'):
             user_id = UserInformation.objects.get(user=request.user.id)
             job_id = Job.objects.get(id=request.POST.get('job_id'))
-            applied_job = AppliedJob.objects.create(
-                user=user_id,
-                job=job_id
-            )
-            applied_job.save()
+
+            if not AppliedJob.objects.filter(user=user_id, job=job_id).exists():
+                applied_job = AppliedJob.objects.create(
+                    user=user_id,
+                    job=job_id
+                )
+                applied_job.save()
 
         context = {
             'filter': filter,

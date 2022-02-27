@@ -67,13 +67,11 @@ class Job(models.Model):
 class AppliedJob(models.Model):
     user = models.ForeignKey(
         UserInformation,
-        related_name='user_applied',
         on_delete=models.CASCADE,
         null=True
     )
     job = models.ForeignKey(
         Job,
-        related_name='job_applied',
         on_delete=models.CASCADE,
         null=True
     )
