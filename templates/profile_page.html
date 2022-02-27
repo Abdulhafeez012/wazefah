@@ -11,7 +11,7 @@
                 <div class="col-md-7">
                     <div class="card p-3 py-4">
                         <div style="float:right">
-                            <a class="btn btn-secondary" href="#profile-settings">
+                            <a class="btn btn-secondary" id="form-toggle" href="#profile-settings">
                                 <img src="/static/images/pencil-fill.svg">
                             </a>
                         </div>
@@ -82,7 +82,7 @@
             </div>
             <div class="col-md-5 b form-section">
                 <div class="p-3 py-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3" id="profile">
                         <form method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ user_form | crispy }}
@@ -94,5 +94,9 @@
             </div>
         </div>
     </div>
-
+    <script>
+        $("#form-toggle").click(function () {
+            $("#profile-settings").toggle();
+        });
+    </script>
 {% endblock %}

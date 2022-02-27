@@ -9,7 +9,7 @@
 }
 
 .profile-form {
-    padding-top: 50px;
+    padding-top: 200px;
 }
 
 /*profile form design */
@@ -141,4 +141,8 @@ ul.timeline > li:before {
     width: 20px;
     height: 20px;
     z-index: 400;
+}
+
+#profile-settings{
+display: none;
 }
