@@ -57,7 +57,6 @@ class Job(models.Model):
     company = models.ForeignKey(
         Company,
         models.CASCADE,
-        related_name="company_id"
     )
     category = models.CharField(max_length=255)
 

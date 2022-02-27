@@ -35,6 +35,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .filter import JobFilter
 from django.urls import reverse_lazy
 
+import json
 
 class BaseView(TemplateView):
     template_name = 'base.html'
@@ -161,13 +162,9 @@ class ResultView(ListView):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        model = Job.objects.all().values()
-        filter = JobFilter(request.POST, queryset=model)
+        model = Job.objects.all()
+        filter = JobFilter(request.POST or None, queryset=model)
         model = filter.qs
-        context = {
-            'filter': filter,
-            'job_model': model,
-        }
         if request.POST.get('job_id'):
             user_id = UserInformation.objects.get(user=request.user.id)
             job_id = Job.objects.get(id=request.POST.get('job_id'))
@@ -176,6 +173,12 @@ class ResultView(ListView):
                 job=job_id
             )
             applied_job.save()
+
+        context = {
+            'filter': filter,
+            'job_model': model,
+        }
+
         return render(request, self.template_name, context)
 
 
