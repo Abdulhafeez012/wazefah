@@ -15,6 +15,8 @@ from django.contrib.auth import (
     logout,
     authenticate,
 )
+
+from . import forms
 from .forms import (
     UserForm,
     UserFormUpdate,
@@ -34,8 +36,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .filter import JobFilter
 from django.urls import reverse_lazy
+from django import forms
 
-import json
 
 class BaseView(TemplateView):
     template_name = 'base.html'
@@ -201,6 +203,12 @@ class ExperienceCreateView(LoginRequiredMixin, CreateView):
     fields = ['position', 'start_date',
               'end_date', 'company_name', 'description']
 
+    def get_form(self, form_class=None):
+        form = super(ExperienceCreateView, self).get_form(form_class)
+        form.fields['start_date'].widget = forms.DateInput(attrs={'type': 'date'})
+        form.fields['end_date'].widget = forms.DateInput(attrs={'type': 'date'})
+        return form
+
     def form_valid(self, form):
         user_id = UserInformation.objects.get(user=self.request.user.id)
         form.instance.user = user_id
@@ -211,6 +219,12 @@ class ExperienceUpdateView(LoginRequiredMixin, UpdateView):
     models = Experience
     fields = ['position', 'start_date',
               'end_date', 'company_name', 'description']
+
+    def get_form(self, form_class=None):
+        form = super(ExperienceUpdateView, self).get_form(form_class)
+        form.fields['start_date'].widget = forms.DateInput(attrs={'type': 'date'})
+        form.fields['end_date'].widget = forms.DateInput(attrs={'type': 'date'})
+        return form
 
     def get_queryset(self):
         """Return Experience"""

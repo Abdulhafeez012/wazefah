@@ -44,26 +44,24 @@
     <div class="container mt-5 mb-5" id="timeline-experience">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <div>
-                    <h4>Experience</h4>
-                </div>
-
-
-                <div style="float:right">
-                    <a class="btn btn-secondary" href="{% url 'main:create' %}">
-                        <img src="/static/images/file-earmark-plus.svg">
-                    </a>
-                </div>
-
-                <div>
-                    {% for experience in experiences_list %}
-                        <ul class="timeline">
-                            <li>
-                                <a target="_blank" href="experience/{{ experience.id }}">{{ experience.position }}</a>
-                                <p>{{ experience.description }}</p>
-                            </li>
-                        </ul>
-                    {% endfor %}
+                <div class="d-flex flex-column">
+                    <div class="d-flex justify-content-between">
+                        <h4>Experience</h4>
+                        <a class="btn btn-secondary" href="{% url 'main:create' %}">
+                            <img src="/static/images/file-earmark-plus.svg">
+                        </a>
+                    </div>
+                    <div>
+                        {% for experience in experiences_list %}
+                            <ul class="timeline">
+                                <li>
+                                    <a target="_blank"
+                                       href="experience/{{ experience.id }}">{{ experience.position }}</a>
+                                    <p>{{ experience.description }}</p>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
