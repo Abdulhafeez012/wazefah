@@ -1,4 +1,3 @@
-
 from json import JSONEncoder
 from django.shortcuts import (
     render,
@@ -106,10 +105,13 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         experiences = Experience.objects.filter(
             user_id=self.request.user.id).values()
+        applied_list = AppliedJob.objects.filter(
+            user=self.request.user.id)
         context = super().get_context_data(**kwargs)
         context['user_form'] = self.user_form
         context['profile_form'] = self.profile_form
         context['experiences_list'] = experiences
+        context['applied_list'] = applied_list
         return context
 
     def post(self, request, *args, **kwargs):
@@ -147,7 +149,7 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         user_id = UserInformation.objects.get(user=request.user.id)
         job_id = Job.objects.get(id=request.POST.get('job_id'))
-        save = 'false'
+
         if not AppliedJob.objects.filter(user=user_id, job=job_id).exists():
             applied_job = AppliedJob.objects.create(
                 user=user_id,
@@ -240,6 +242,7 @@ class ExperienceUpdateView(LoginRequiredMixin, UpdateView):
 class ExperienceDeleteView(LoginRequiredMixin, DeleteView):
     model = Experience
     success_url = reverse_lazy("main:profile")
+
 
 class SuccessView(TemplateView):
     template_name = 'success_page.html'
