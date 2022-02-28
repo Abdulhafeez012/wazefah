@@ -24,6 +24,7 @@
     <link href="{% static 'css/signup_page.css' %}" rel="stylesheet">
     <link href="{% static 'css/profile_page.css' %}" rel="stylesheet">
     <link href="{% static 'css/experience_form_page.css' %}" rel="stylesheet">
+    <link href="{% static 'css/success_page.css' %}" rel="stylesheet">
 
     <title>Wazefah</title>
 </head>
@@ -63,6 +64,8 @@
 
     {% endblock %}
 {% endif %}
+{% block success%}
+{% endblock %}
 {% include 'footer.html' %}
 <script>
     var message_ele = document.getElementById("message_container");

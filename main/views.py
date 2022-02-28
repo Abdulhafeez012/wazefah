@@ -1,3 +1,5 @@
+
+from json import JSONEncoder
 from django.shortcuts import (
     render,
     redirect,
@@ -15,7 +17,6 @@ from django.contrib.auth import (
     logout,
     authenticate,
 )
-
 from . import forms
 from .forms import (
     UserForm,
@@ -29,6 +30,7 @@ from .models import (
     Experience,
     Company,
 )
+from django.http import JsonResponse
 from django.views.generic.edit import FormView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -145,6 +147,7 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         user_id = UserInformation.objects.get(user=request.user.id)
         job_id = Job.objects.get(id=request.POST.get('job_id'))
+        save = 'false'
         if not AppliedJob.objects.filter(user=user_id, job=job_id).exists():
             applied_job = AppliedJob.objects.create(
                 user=user_id,
@@ -237,3 +240,6 @@ class ExperienceUpdateView(LoginRequiredMixin, UpdateView):
 class ExperienceDeleteView(LoginRequiredMixin, DeleteView):
     model = Experience
     success_url = reverse_lazy("main:profile")
+
+class SuccessView(TemplateView):
+    template_name = 'success_page.html'
