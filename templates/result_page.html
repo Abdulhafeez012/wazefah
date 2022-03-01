@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block result_block %}
+    <div class="container my-4">
+        {% if not user.is_authenticated %}
+            <div class="alert alert-danger d-flex justify-content-center" role="alert" id="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                     class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
+                     aria-label="Warning:">
+                    <path
+                            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+                <div class="text-center">
+                    You Are Not log In ... Please log In to can you apply a job<br>
+                    If you don't have an account yet :-<a href="{% url 'main:register' %}"
+                                                          class="btn btn-primary active align-self-center mx-3">Sign
+                    Up</a>
+                </div>
+            </div>
+        {% endif %}
+        <div class="card border-primary p-3" id="form_card">
+            <h3 class="text-center">Filtering Your Search</h3>
+            <div class="card-body text-primary">
+                <form method="post" class="d-flex flex-column">
+                    {% csrf_token %}
+                    <div class="d-lg-flex flex-lg-row m-3 justify-content-around">
+                        {{ filter.form|crispy }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Start Search</button>
+                </form>
+            </div>
+        </div>
+        {% if request.method == 'POST' %}
+            <div class="table-responsive mt-3">
+                <table class="table table-dark table-striped" id="table">
+                    <thead>
+                    <tr class="text-uppercase">
+                        <th scope="col">Title</th>
+                        <th scope="col">Category</th>
+                        {% if user.is_authenticated %}
+                            <th scope="col"></th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for job in job_model %}
+                        <tr>
+                            <td>{{ job.title }}</td>
+                            <td>{{ job.category }}</td>
+                            {% if user.is_authenticated %}
+                                <td class="p-3">
+                                    <a type="button" class="btn btn-primary view-job" data-bs-toggle="modal"
+                                       data-bs-target="#staticBackdrop{{ job.id }}"
+                                       data-job-id="{{ job.id }}">
+                                        View the Job
+                                    </a>
+                                </td>
+                                <!-- Modal -->
+                                <div class="modal fade" id="staticBackdrop{{ job.id }}" data-bs-backdrop="static"
+                                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Job Details </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="alert alert-secondary" role="alert">
+                                                    {% if perms.main.add_job %}
+                                                        <a class="btn btn-secondary" href="{% url 'main:add_job' %}">
+                                                            <img src="/static/images/file-earmark-plus.svg">
+                                                        </a>
+
+                                                        <a class="btn btn-secondary" href="{{ job.id }}">
+                                                            <img src="/static/images/pencil-fill.svg">
+                                                        </a>
+                                                    {% endif %}
+                                                    <h4 class="alert-heading">{{ job.title }}</h4>
+                                                    <p>{{ job.content }}</p>
+                                                    <p class="mb-0">Advertised company :- {{ job.company }}
+                                                    </p>
+                                                    <p>The Date of advertised this job :-
+                                                        <time>{{ job.created_on }}</time>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close
+                                                </button>
+                                                {% if not perms.main.add_appliedjob %}
+                                                    {% if job.id in applied_list %}
+                                                        <button type="submit" class="btn btn-primary enroll-btn"
+                                                                data-job-id="{{ job.id }}" disabled>You Have Enrolled!
+                                                        </button>
+                                                    {% else %}
+                                                        <a type="submit" class="btn btn-primary enroll-btn"
+                                                           data-job-id="{{ job.id }}"
+                                                           href="{% url 'main:success' %}">Enroll The Job</a>
+                                                    {% endif %}
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </tr>
+                    {% empty %}
+                        <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                            <strong>Sorry!</strong> There is No Job Yet related to your search
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+    <script>
+
+        $(document).ready(function () {
+            $(".enroll-btn").click(function (event) {
+                var jobId = $(event.currentTarget).data().jobId
+                $.post("{% url 'main:result' %}",
+                    {
+                        'job_id': jobId,
+                        'csrfmiddlewaretoken': "{{ csrf_token }}"
+                    },
+                    function (data, status) {
+                        console.log
+                    });
+            });
+        })
+
+        $(document).ready(function () {
+            $(".view-job").click(function (event) {
+                var jobId = $(event.currentTarget).data().jobId
+                $.get("{% url 'main:result' %}",
+                    {
+                        'job': jobId,
+                        'csrfmiddlewaretoken': "{{ csrf_token }}"
+                    },
+                    function (data, status) {
+                        console.log(data)
+                    });
+            });
+        })
+    </script>
+{% endblock %}

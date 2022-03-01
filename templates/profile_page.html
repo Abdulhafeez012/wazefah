@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block profile_block %}
+
+
+    <!--user info-->
+    <div class="profile">
+        <div class="container mt-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7">
+                    <div class="card p-3 py-4">
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-secondary" id="form-toggle" href="#profile-settings">
+                                <img src="/static/images/pencil-fill.svg">
+                            </a>
+                        </div>
+                        <div class="text-center">
+                            <img src="{{ user.userinformation.profile_pic.url }}"
+                                 class="rounded-circle user-profile-pic-profile">
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <span class="bg-secondary p-1 px-4 rounded text-white">{{ user.first_name }}</span>
+                            <h5 class="mt-2 mb-0"></h5>
+                            <span><span>Career Path: </span>{{ user.userinformation.career_path }}</span>
+                        </div>
+
+                        <div class="px-4 mt-1">
+                            <span>Bio: </span>
+                            <p class="fonts">{{ user.userinformation.bio }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- experience timeline-->
+
+
+    <div class="container mt-5 mb-5" id="timeline-experience">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="d-flex flex-column">
+                    <div class="d-flex justify-content-between">
+                        <h4>Experience</h4>
+                        <a class="btn btn-secondary" href="{% url 'main:create' %}">
+                            <img src="/static/images/file-earmark-plus.svg">
+                        </a>
+                    </div>
+                    <div>
+                        {% for experience in experiences_list %}
+                            <ul class="timeline">
+                                <li>
+                                    <a target="_blank"
+                                       href="experience/{{ experience.id }}">{{ experience.position }}</a>
+                                    <p>{{ experience.description }}</p>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- user applied section -->
+    <div class="container mt-5 mb-5" id="timeline-appliedjob">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="d-flex flex-column">
+                    <div class="d-flex justify-content-between">
+                        <h4>Applied Jobs</h4>
+                    </div>
+                    <div>
+                        {% for applied in applied_list %}
+                            <ul class="timeline">
+                                <li>
+                                    <p>{{ applied.job }}</p>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--user profile form-->
+    <div class="container rounded bg-white mt-5 mb-5 profile-form" id="profile-settings">
+        <div class="row">
+            <div class="col-md-3 ">
+                <div class="d-flex flex-column align-items-left text-left p-3 py-5">
+                    <h2>Profile Settings</h2>
+                </div>
+            </div>
+            <div class="col-md-5 b form-section">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3" id="profile">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ user_form | crispy }}
+                            {{ profile_form | crispy }}
+                            <button class="btn btn-warning">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#form-toggle").click(function () {
+            $("#profile-settings").toggle();
+        });
+    </script>
+{% endblock %}

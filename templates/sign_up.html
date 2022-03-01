@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block register_block %}
+    <div class="d-flex card border-primary border-2 sigun-card">
+        <h2 class="align-self-center m-3 text-primary">Sign Up</h2>
+        <div class="card-body text-primary">
+            {% crispy user_form %}
+            <hr>
+            <div class="d-flex mt-3 justify-content-center">
+                <p>You have Already an account ?<span><a class="btn btn-primary mx-4" href="{% url 'main:login' %}">Log
+                        In</a></span>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

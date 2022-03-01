@@ -1,0 +1,20 @@
+{% extends 'base.html'%}
+
+{% block success %}
+<div class="container ml-5 my-3">
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading text-center">Congrats!</h4>
+        <p class="text-center">Your confirmation is Successfully</p>
+        <hr>
+        <div class="d-lg-flex flex-lg-row justify-content-lg-around">
+            <p class="mb-3 text-center">Go To profile Page:- <a href="{% url 'main:profile' %}"
+                    class="btn btn-primary">Profile
+                    Page</a></p>
+            <p class="mb-0 text-center">Go To Home:- <a href="{% url 'main:user_home' %}"
+                    class="btn btn-primary">Home Page</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

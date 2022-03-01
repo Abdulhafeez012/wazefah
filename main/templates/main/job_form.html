@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block body_block %}
+
+    {% if not form.instance.pk %}
+
+        <div class="d-flex justify-content-center experience">
+            <div class="d-flex card border-primary border-2 experience-form">
+                <h2 class="align-self-center m-3 text-primary">New Job</h2>
+                <div class="card-body text-primary d-flex justify-content-center">
+                    <form method="POST" class="d-flex justify-content-center flex-column">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-success">Add</button>
+                            <a href="{% url 'main:user_home' %}" class="btn btn-danger">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+{% else %}
+        <div class="d-flex justify-content-center experience">
+            <div class="d-flex card border-primary border-2 experience-form">
+                <h2 class="align-self-center m-3 text-primary">Update Job</h2>
+                <div class="card-body text-primary d-flex justify-content-center">
+                    <form method="POST" class="d-flex justify-content-center flex-column">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-warning">Update</button>
+                            <a href="{% url 'main:user_home' %}" class="btn btn-danger">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
