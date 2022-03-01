@@ -1,10 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserInformation, Experience
+from .models import UserInformation
 from django.contrib.auth.forms import UserCreationForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Button, Submit, Div
-from crispy_forms.bootstrap import FormActions
 
 
 class UserForm(UserCreationForm):
@@ -22,18 +21,24 @@ class UserForm(UserCreationForm):
             )
         )
 
-    class Meta():
+    class Meta:
         model = User
         fields = ('username', 'password1', 'password2',)
 
 
 class UserFormUpdate(forms.ModelForm):
-    class Meta():
+    class Meta:
         model = User
         fields = ('first_name', 'last_name')
 
 
 class UserProfileForm(forms.ModelForm):
-    class Meta():
+    class Meta:
         model = UserInformation
-        fields = ('profile_pic', 'career_path', 'bio', 'gender')
+        fields = ('profile_pic', 'date_of_birth', 'career_path', 'bio', 'gender')
+        widgets = {
+            'date_of_birth': forms.DateInput(format=('%m/%d/%Y'),
+                                             attrs={'class': 'form-control',
+                                                    'type': 'date'}
+                                             )
+        }

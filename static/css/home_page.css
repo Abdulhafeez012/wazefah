@@ -1,5 +1,5 @@
-#job_card {
-    max-width: 24rem;
+.job_card {
+    min-width: 10rem;
     max-height: 30rem;
 }
 

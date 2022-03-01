@@ -78,6 +78,14 @@ class AppliedJob(models.Model):
         on_delete=models.CASCADE,
         null=True
     )
+    APPLIED = 'APPLIED'
+    NOT_APPLIED = 'NOT_APPLIED'
+    STATUS_CHOICES = [
+        (APPLIED, 'applied'),
+        (NOT_APPLIED, 'not_applied')
+    ]
+
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=NOT_APPLIED)
 
     def __str__(self):
         return str(self.user) + "-" + str(self.job)

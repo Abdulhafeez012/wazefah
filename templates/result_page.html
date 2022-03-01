@@ -26,7 +26,7 @@
                     <div class="d-lg-flex flex-lg-row m-3 justify-content-around">
                         {{ filter.form|crispy }}
                     </div>
-                    <button type="submit" class="btn btn-primary">submit</button>
+                    <button type="submit" class="btn btn-primary">Start Search</button>
                 </form>
             </div>
         </div>
@@ -50,8 +50,8 @@
                             {% if user.is_authenticated %}
                                 <td class="p-3">
                                     <a type="button" class="btn btn-primary view-job" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop{{ job.id }}"
-                                            data-company-id="{{ job.company_id }}">
+                                       data-bs-target="#staticBackdrop{{ job.id }}"
+                                       data-job-id="{{ job.id }}">
                                         View the Job
                                     </a>
                                 </td>
@@ -81,10 +81,16 @@
                                                 <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close
                                                 </button>
-                                                <a type="submit" class="btn btn-primary enroll-btn"
-                                                   data-job-id="{{ job.id }}"
-                                                   href="{% url 'main:result' %}">Enroll The
-                                                    Job</a>
+                                                {% if job.id in applied %}
+                                                    <button type="submit" class="btn btn-primary enroll-btn"
+                                                            data-job-id="{{ job.id }}" disabled>You Have Enrolled!
+                                                    </button>
+                                                {% else %}
+                                                    <a type="submit" class="btn btn-primary enroll-btn"
+                                                       data-job-id="{{ job.id }}"
+                                                       href="{% url 'main:success' %}">Enroll The Job</a>
+                                                {% endif %}
+
                                             </div>
                                         </div>
                                     </div>
@@ -120,10 +126,10 @@
 
         $(document).ready(function () {
             $(".view-job").click(function (event) {
-                var companyId = $(event.currentTarget).data().companyId
-                $.post("{% url 'main:result' %}",
+                var jobId = $(event.currentTarget).data().jobId
+                $.get("{% url 'main:result' %}",
                     {
-                        'company_id': companyId,
+                        'job': jobId,
                         'csrfmiddlewaretoken': "{{ csrf_token }}"
                     },
                     function (data, status) {
