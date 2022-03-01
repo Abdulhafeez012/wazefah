@@ -68,6 +68,15 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="alert alert-secondary" role="alert">
+                                                    {% if perms.main.add_job %}
+                                                        <a class="btn btn-secondary" href="{% url 'main:add_job' %}">
+                                                            <img src="/static/images/file-earmark-plus.svg">
+                                                        </a>
+
+                                                        <a class="btn btn-secondary" href="{{ job.id }}">
+                                                            <img src="/static/images/pencil-fill.svg">
+                                                        </a>
+                                                    {% endif %}
                                                     <h4 class="alert-heading">{{ job.title }}</h4>
                                                     <p>{{ job.content }}</p>
                                                     <p class="mb-0">Advertised company :- {{ job.company }}
@@ -81,14 +90,16 @@
                                                 <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close
                                                 </button>
-                                                {% if job.id in applied %}
-                                                    <button type="submit" class="btn btn-primary enroll-btn"
-                                                            data-job-id="{{ job.id }}" disabled>You Have Enrolled!
-                                                    </button>
-                                                {% else %}
-                                                    <a type="submit" class="btn btn-primary enroll-btn"
-                                                       data-job-id="{{ job.id }}"
-                                                       href="{% url 'main:success' %}">Enroll The Job</a>
+                                                {% if not perms.main.add_appliedjob %}
+                                                    {% if job.id in applied_list %}
+                                                        <button type="submit" class="btn btn-primary enroll-btn"
+                                                                data-job-id="{{ job.id }}" disabled>You Have Enrolled!
+                                                        </button>
+                                                    {% else %}
+                                                        <a type="submit" class="btn btn-primary enroll-btn"
+                                                           data-job-id="{{ job.id }}"
+                                                           href="{% url 'main:success' %}">Enroll The Job</a>
+                                                    {% endif %}
                                                 {% endif %}
 
                                             </div>

@@ -23,4 +23,5 @@ urlpatterns = [
     path('addjob/', views.JobCreateView.as_view(), name='add_job'),
     path('updatejob/<int:pk>', views.JobUpdateView.as_view(), name='update_job'),
     path('deletejob/<int:pk>', views.JobDeleteView.as_view(), name='delete_job'),
+    path('result/<int:pk>',views.JobDetailView.as_view(),name='job_detail')
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

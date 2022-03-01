@@ -167,8 +167,6 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
         return redirect('main:user_home')
 
 
-# job add/edit/delete for supreuser------------------------------------------------------------------------------------
-# if request.user.is_superuser:
 class JobDetailView(DetailView):
     context_object_name = 'job_detail'
     model = Job
@@ -180,7 +178,6 @@ class JobCreateView(LoginRequiredMixin, CreateView):
     fields = ['title', 'content',
               'company', 'category']
 
-    # @permission_required('is_superuser')
     def get_form(self, form_class=None):
         form = super(JobCreateView, self).get_form(form_class)
         return form
@@ -207,7 +204,7 @@ class JobUpdateView(LoginRequiredMixin, UpdateView):
 
 class JobDeleteView(LoginRequiredMixin, DeleteView):
     model = Job
-    success_url = reverse_lazy("main:profile")
+    success_url = reverse_lazy("main:user_home")
 
 
 class ResultView(ListView):
@@ -218,6 +215,8 @@ class ResultView(ListView):
 
     def post(self, request, *args, **kwargs):
         model = Job.objects.all()
+        jobs = Job.objects.filter(
+            id=request.POST.get('job_id')).values()
         applied = AppliedJob.objects.filter(user=request.user.id).values_list('job', flat=True)
         applied_list = list(applied)
         filter = JobFilter(request.POST or None, queryset=model)
@@ -236,7 +235,8 @@ class ResultView(ListView):
         context = {
             'filter': filter,
             'job_model': model,
-            'applied': applied_list
+            'applied': applied_list,
+            'jobs_list': jobs
         }
 
         return render(request, self.template_name, context)

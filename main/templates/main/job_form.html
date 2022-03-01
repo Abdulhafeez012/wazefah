@@ -15,7 +15,7 @@
                         {{ form | crispy }}
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-success">Add</button>
-                            <a href="{% url 'main:profile' %}" class="btn btn-danger">Cancel</a>
+                            <a href="{% url 'main:user_home' %}" class="btn btn-danger">Cancel</a>
                         </div>
                     </form>
                 </div>
@@ -32,7 +32,7 @@
                         {{ form | crispy }}
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-warning">Update</button>
-                            <a href="{% url 'main:profile' %}" class="btn btn-danger">Cancel</a>
+                            <a href="{% url 'main:user_home' %}" class="btn btn-danger">Cancel</a>
                         </div>
                     </form>
                 </div>
