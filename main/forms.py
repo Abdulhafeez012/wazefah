@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import UserInformation
 from django.contrib.auth.forms import UserCreationForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Button, Submit, Div
+from crispy_forms.layout import Submit, Div
 
 
 class UserForm(UserCreationForm):

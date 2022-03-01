@@ -1,4 +1,3 @@
-from json import JSONEncoder
 from django.shortcuts import (
     render,
     redirect,
@@ -32,7 +31,7 @@ from .models import (
 from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .filter import JobFilter
