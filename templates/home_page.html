@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+
+    <div class="container" id="message_container">
+        {% if messages %}
+            {% for message in messages %}
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z">
+                        </path>
+                    </symbol>
+                </svg>
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                        <use xlink:href="#check-circle-fill"></use>
+                    </svg>
+                    <div>
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+        <div class="container my-4">
+            <h2 class="text-dark text-center"> Suggestion Job </h2>
+            <div class="d-flex flex-column align-items-center">
+                <div class="d-flex flex-row flex-wrap justify-content-center">
+                    {% for job in job_list %}
+                        <div class="card m-4 bg-light p-2 job_card">
+                            <div class=" bg-light text-dark text-center pt-3">{{ job.category }}</div>
+                            <hr>
+                            <div class="d-flex flex-column card-body text-dark">
+                                <h4 class="card-title align-self-center text-center">{{ job.title }}</h4>
+                                <button type="button" class="btn btn-primary view" data-bs-toggle="modal"
+                                        data-job-id="{{ job.id }}"
+                                        data-bs-target="#staticBackdrop-{{ job.id }}">
+                                    View the Job
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="staticBackdrop-{{ job.id }}" data-bs-backdrop="static"
+                                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Job Detail</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="alert alert-secondary" role="alert">
+                                                  {% if perms.main.add_job %}
+                                                   <a class="btn btn-secondary" href="{% url 'main:add_job' %}">
+                                                     <img src="/static/images/file-earmark-plus.svg">
+                                                   </a>
+
+                                                   <a class="btn btn-secondary" href="job/{{job.id}}">
+                                                     <img src="/static/images/pencil-fill.svg">
+                                                    </a>
+                                                  {% endif %}
+                                                    <h4 class="alert-heading">{{ job.title }}</h4>
+                                                    <p>{{ job.content }}</p>
+                                                    <p class="mb-0">Advertised company :- {{ job.company }}
+                                                    </p>
+                                                    <p>The Date of advertised this job :-
+                                                        <time>{{ job.created_on }}</time>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Cancel
+                                                </button>
+                                              {% if not perms.main.add_appliedjob %}
+                                                {% if job.id in applied_list %}
+                                                    <button type="submit" class="btn btn-primary enroll-btn"
+                                                            data-job-id="{{ job.id }}" disabled>You Have Enrolled!
+                                                    </button>
+                                                {% else %}
+                                                    <a type="submit" class="btn btn-primary enroll-btn"
+                                                       data-job-id="{{ job.id }}"
+                                                       href="{% url 'main:success' %}">Enroll The Job</a>
+                                                {% endif %}
+                                              {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="container my-4" id="company">
+        <h2 class="text-dark text-center"> Companies </h2>
+
+        <div class="d-flex flex-column align-items-center mt-4">
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+                {% for company in companies %}
+                    <div class="d-flex flex-column align-items-center m-4 " id="{{ company.name }}">
+                        <div class="d-flex align-items-center card company-card">
+                            <img src="{{ company.company_pic.url }}" alt="{{ company.name }}"
+                                 class="rounded-pill company-img pt-4 pb-0">
+                            <div class="d-flex flex-column justify-content-between card-body">
+                                <h5 class="card-title text-primary text-uppercase text-center fw-bold">{{ company }}</h5>
+                                <p class="card-text text-primary text-center lh-base">
+                                    {{ company.description }}
+                                </p>
+                                <section class="d-flex justify-content-center"><a href="{{ company.company_website }}"
+                                                                                  target="blank"
+                                                                                  class="btn btn-primary">Visit
+                                    Website</a>
+                                </section>
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".enroll-btn").click(function (event) {
+                var jobId = $(event.currentTarget).data().jobId
+                $.post("{% url 'main:user_home' %}",
+                    {
+                        'job_id': jobId,
+                        'csrfmiddlewaretoken': "{{ csrf_token }}"
+                    },
+                    function (data, status) {
+                        console.log
+                    });
+            });
+        })
+        $(document).ready(function () {
+            $(".view").click(function (event) {
+                var jobId = $(event.currentTarget).data().jobId
+                $.get("{% url 'main:user_home' %}",
+                    {
+                        'job': jobId,
+                        'csrfmiddlewaretoken': "{{ csrf_token }}"
+                    },
+                    function (data, status) {
+                        console.log
+                    });
+            });
+        })
+    </script>
+
+{% endblock %}

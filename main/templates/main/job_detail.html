@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block body_block %}
+    <div class="d-flex justify-content-center experience">
+        <div class="d-flex card border-primary border-2" style="width: 40rem;">
+            <h2 class="align-self-center m-3 text-primary">Job Details</h2>
+            <div class="card-body text-primary">
+                <div class="experience d-flex flex-column align-items-center">
+                    <p><span class="">Position:</span> {{ job_detail.title }}</p>
+                    <p><span class="">Description:</span> {{ job_detail.content }}</p>
+                    <p><span class="">Company: </span> {{ job_detail.company }}</p>
+                    <p><span class="">Company: </span> {{ job_detail.category }}</p>
+
+                    <div class="detail-buttons">
+                        <a class=""
+                           href="{% url 'main:update_job' pk=job_detail.pk %}">
+                            <button class="btn btn-warning">Update</button>
+                        </a>
+                        <a class=""
+                           href="{% url 'main:delete_job' pk=job_detail.pk %}">
+                            <button class="btn btn-danger">Delete</button>
+                        </a>
+                    </div>
+                    <a class="mt-2" href="{% url 'main:user_home' %}">
+                        <button class="btn btn-secondary">Back to Jobs</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+{% block result_block %}
+    <div class="d-flex justify-content-center experience">
+        <div class="d-flex card border-primary border-2" style="width: 40rem;">
+            <h2 class="align-self-center m-3 text-primary">Job Details</h2>
+            <div class="card-body text-primary">
+                <div class="experience d-flex flex-column align-items-center">
+                    <p><span class="">Position:</span> {{ job_detail.title }}</p>
+                    <p><span class="">Description:</span> {{ job_detail.content }}</p>
+                    <p><span class="">Company: </span> {{ job_detail.company }}</p>
+                    <p><span class="">Company: </span> {{ job_detail.category }}</p>
+
+                    <div class="detail-buttons">
+                        <a class=""
+                           href="{% url 'main:update_job' pk=job_detail.pk %}">
+                            <button class="btn btn-warning">Update</button>
+                        </a>
+                        <a class=""
+                           href="{% url 'main:delete_job' pk=job_detail.pk %}">
+                            <button class="btn btn-danger">Delete</button>
+                        </a>
+                    </div>
+                    <a class="mt-2" href="{% url 'main:user_home' %}">
+                        <button class="btn btn-secondary">Back to Jobs</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
