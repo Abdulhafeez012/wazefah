@@ -17,7 +17,7 @@ class UserInformation(models.Model):
         null=True,
         blank=True
     )
-    date_of_birth = models.DateField(default=datetime.date.today)
+    date_of_birth = models.DateField(null=True, blank=True)
     profile_pic = models.ImageField(
         default='profile_pics/default.png',
         upload_to='profile_pics'
@@ -75,6 +75,14 @@ class AppliedJob(models.Model):
         on_delete=models.CASCADE,
         null=True
     )
+    APPLIED = 'APPLIED'
+    NOT_APPLIED = 'NOT_APPLIED'
+    STATUS_CHOICES = [
+        (APPLIED, 'applied'),
+        (NOT_APPLIED, 'not_applied')
+    ]
+
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=NOT_APPLIED)
 
     def __str__(self):
         return str(self.user) + "-" + str(self.job)

@@ -1,4 +1,3 @@
-from json import JSONEncoder
 from django.shortcuts import (
     render,
     redirect,
@@ -29,7 +28,7 @@ from .models import (
     Experience,
     Company,
 )
-from django.http import JsonResponse
+from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -62,19 +61,21 @@ class SignUp(TemplateView):
 
     def post(self, request, *args, **kwargs):
         user_form = UserForm(data=request.POST)
-        profile_form = self.profile_form(data=request.POST)
         if user_form.is_valid():
-            user = user_form.save()
-            user.set_password(user.password)
-            user.save()
+            user = User.objects.create_user(
+                username=user_form.cleaned_data.get('username'),
+                password=user_form.cleaned_data.get('password2')
+            )
+            UserInformation.objects.create(user=user)
 
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
+            print(user)
 
-            if user:
+            if user.is_authenticated and user.is_active:
                 login(request, user)
                 return redirect('main:user_home')
+        else:
+            print(user_form.errors)
+
         return render(request, self.template_name, {'user_form': user_form})
 
 
@@ -136,6 +137,11 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        applied = AppliedJob.objects.filter(
+            user=self.request.user.id).values_list('job', flat=True)
+        applied_list = list(applied)
+
         job_list = [
             Job.objects.filter(category='IT').first(),
             Job.objects.filter(category='Retail').first(),
@@ -144,6 +150,7 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
         ]
         context['job_list'] = job_list
         context['companies'] = Company.objects.all()
+        context['applied_list'] = applied_list
         return context
 
     def post(self, request, *args, **kwargs):
@@ -153,7 +160,8 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
         if not AppliedJob.objects.filter(user=user_id, job=job_id).exists():
             applied_job = AppliedJob.objects.create(
                 user=user_id,
-                job=job_id
+                job=job_id,
+                status='applied'
             )
             applied_job.save()
         return redirect('main:user_home')
@@ -162,15 +170,13 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
 class ResultView(ListView):
     template_name = 'result_page.html'
 
-    def get(self, request, *args, **kwargs):
-        filter = JobFilter()
-        context = {
-            'filter': filter,
-        }
-        return render(request, self.template_name, context)
+    def get_queryset(self):
+        return Job.objects.order_by('id')
 
     def post(self, request, *args, **kwargs):
         model = Job.objects.all()
+        applied = AppliedJob.objects.filter(user=request.user.id).values_list('job', flat=True)
+        applied_list = list(applied)
         filter = JobFilter(request.POST or None, queryset=model)
         model = filter.qs
         if request.POST.get('job_id'):
@@ -187,6 +193,7 @@ class ResultView(ListView):
         context = {
             'filter': filter,
             'job_model': model,
+            'applied': applied_list
         }
 
         return render(request, self.template_name, context)
