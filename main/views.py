@@ -137,7 +137,6 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         applied = AppliedJob.objects.filter(
             user=self.request.user.id).values_list('job', flat=True)
         applied_list = list(applied)

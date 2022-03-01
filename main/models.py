@@ -17,7 +17,7 @@ class UserInformation(models.Model):
         null=True,
         blank=True
     )
-    date_of_birth = models.DateField(null=True, blank=True)
+    date_of_birth = models.DateField(default=datetime.date.today)
     profile_pic = models.ImageField(
         default='profile_pics/default.png',
         upload_to='profile_pics'
