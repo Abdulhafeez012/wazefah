@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body_block %}
+
     <div class="container" id="message_container">
         {% if messages %}
             {% for message in messages %}
@@ -51,6 +52,15 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="alert alert-secondary" role="alert">
+                                                  {% if perms.main.add_job %}
+                                                   <a class="btn btn-secondary" href="{% url 'main:add_job' %}">
+                                                     <img src="/static/images/file-earmark-plus.svg">
+                                                   </a>
+
+                                                   <a class="btn btn-secondary" href="job/{{job.id}}">
+                                                     <img src="/static/images/pencil-fill.svg">
+                                                    </a>
+                                                  {% endif %}
                                                     <h4 class="alert-heading">{{ job.title }}</h4>
                                                     <p>{{ job.content }}</p>
                                                     <p class="mb-0">Advertised company :- {{ job.company }}
@@ -64,6 +74,7 @@
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                     Cancel
                                                 </button>
+                                              {% if not perms.main.add_appliedjob %}
                                                 {% if job.id in applied_list %}
                                                     <button type="submit" class="btn btn-primary enroll-btn"
                                                             data-job-id="{{ job.id }}" disabled>You Have Enrolled!
@@ -73,11 +84,13 @@
                                                        data-job-id="{{ job.id }}"
                                                        href="{% url 'main:success' %}">Enroll The Job</a>
                                                 {% endif %}
+                                              {% endif %}
 
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     {% endfor %}
@@ -107,11 +120,13 @@
                                 </section>
                             </div>
                         </div>
+
                     </div>
                 {% endfor %}
             </div>
         </div>
     </div>
+
     <script>
         $(document).ready(function () {
             $(".enroll-btn").click(function (event) {
@@ -140,4 +155,5 @@
             });
         })
     </script>
+
 {% endblock %}

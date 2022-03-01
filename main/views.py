@@ -1,3 +1,4 @@
+from json import JSONEncoder
 from django.shortcuts import (
     render,
     redirect,
@@ -31,7 +32,7 @@ from .models import (
 from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .filter import JobFilter
@@ -164,6 +165,49 @@ class SuggestionJobView(LoginRequiredMixin, TemplateView):
             )
             applied_job.save()
         return redirect('main:user_home')
+
+
+# job add/edit/delete for supreuser------------------------------------------------------------------------------------
+# if request.user.is_superuser:
+class JobDetailView(DetailView):
+    context_object_name = 'job_detail'
+    model = Job
+    template_name = 'main/job_detail.html'
+
+
+class JobCreateView(LoginRequiredMixin, CreateView):
+    model = Job
+    fields = ['title', 'content',
+              'company', 'category']
+
+    # @permission_required('is_superuser')
+    def get_form(self, form_class=None):
+        form = super(JobCreateView, self).get_form(form_class)
+        return form
+
+    def form_valid(self, form):
+        user_id = UserInformation.objects.get(user=self.request.user.id)
+        form.instance.user = user_id
+        return super().form_valid(form)
+
+
+class JobUpdateView(LoginRequiredMixin, UpdateView):
+    model = Job
+    fields = ['title', 'content',
+              'company', 'category']
+
+    def get_form(self, form_class=None):
+        form = super(JobUpdateView, self).get_form(form_class)
+        return form
+
+    def get_queryset(self):
+        """Return Job"""
+        return Job.objects.order_by('id')
+
+
+class JobDeleteView(LoginRequiredMixin, DeleteView):
+    model = Job
+    success_url = reverse_lazy("main:profile")
 
 
 class ResultView(ListView):
